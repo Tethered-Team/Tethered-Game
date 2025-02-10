@@ -1,0 +1,95 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfq2y3sot17aa"]
+
+[ext_resource type="PackedScene" uid="uid://bqon2j8trw5g5" path="res://scenes/player.tscn" id="1_gojnm"]
+[ext_resource type="Script" uid="uid://veq0j781ybma" path="res://scripts/camera_3d.gd" id="2_1c2mv"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1c2mv"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gojnm"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1c2mv"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Ground Plane" type="MeshInstance3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+mesh = SubResource("PlaneMesh_1c2mv")
+
+[node name="Player" parent="." instance=ExtResource("1_gojnm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26726, 0)
+dash_duration = 0.2
+camera_node_path = NodePath("../Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 25, 21.2673, 25)
+projection = 1
+size = 10.476
+script = ExtResource("2_1c2mv")
+target = NodePath("../Player")
+smooth_speed = 50.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.683427, 0.730019, 0, -0.730019, 0.683427, -1.08647, 7.47073, 0)
+shadow_enabled = true
+
+[node name="Obstacles" type="Node3D" parent="."]
+
+[node name="Obstacle" type="Node3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.813643, -3.33303)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Obstacle"]
+mesh = SubResource("CylinderMesh_gojnm")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Obstacles/Obstacle"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Obstacle/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1c2mv")
+
+[node name="Obstacle2" type="Node3D" parent="Obstacles"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 3.06909, 0.111023, -2.26792)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Obstacle2"]
+mesh = SubResource("CylinderMesh_gojnm")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Obstacles/Obstacle2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Obstacle2/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1c2mv")
+
+[node name="Obstacle3" type="Node3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88306, 0.111023, 3.66552)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Obstacle3"]
+mesh = SubResource("CylinderMesh_gojnm")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Obstacles/Obstacle3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Obstacle3/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1c2mv")
+
+[node name="Obstacle4" type="Node3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.13301, 0.951235, 3.44475)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Obstacle4"]
+mesh = SubResource("CylinderMesh_gojnm")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Obstacles/Obstacle4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Obstacle4/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1c2mv")
+
+[node name="Obstacle5" type="Node3D" parent="Obstacles"]
+transform = Transform3D(3.85959, 0, 0, 0, 3.85959, 0, 0, 0, 3.85959, -6.25539, 0.951235, -3.9351)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Obstacle5"]
+mesh = SubResource("CylinderMesh_gojnm")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Obstacles/Obstacle5"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Obstacle5/StaticBody3D"]
+shape = SubResource("CylinderShape3D_1c2mv")
