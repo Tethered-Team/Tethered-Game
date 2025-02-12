@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://cq6iqn2jk1335"]
+
+[ext_resource type="Shader" uid="uid://qsen0is11kp6" path="res://src/outline.gdshader" id="1_jdlga"]
+[ext_resource type="Shader" uid="uid://dvxcln3hrqr41" path="res://src/cel-shader-base.gdshader" id="2_v0syg"]
+[ext_resource type="Texture2D" uid="uid://ljakpu6qn0rg" path="res://assets/KayKit_Adventurers_1.0_FREE/Characters/gltf/Knight_knight_texture.png" id="3_v0syg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_six6q"]
+render_priority = 0
+shader = ExtResource("1_jdlga")
+
+[resource]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_six6q")
+shader = ExtResource("2_v0syg")
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 1.0
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/base_texture = ExtResource("3_v0syg")
+shader_parameter/specular = Color(0.3, 0.3, 0.3, 0.5)
+shader_parameter/specular_texture = ExtResource("3_v0syg")
+shader_parameter/fresnel = Color(0.2, 0.2, 0.2, 0.3)
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)

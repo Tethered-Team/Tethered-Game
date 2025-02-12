@@ -1,27 +1,45 @@
-[gd_scene load_steps=6 format=3 uid="uid://dfq2y3sot17aa"]
+[gd_scene load_steps=10 format=3 uid="uid://dfq2y3sot17aa"]
 
 [ext_resource type="PackedScene" uid="uid://bqon2j8trw5g5" path="res://scenes/player.tscn" id="1_gojnm"]
 [ext_resource type="Script" uid="uid://veq0j781ybma" path="res://scripts/camera_3d.gd" id="2_1c2mv"]
+[ext_resource type="Material" uid="uid://bnvu4qtn8ocwi" path="res://blank_cel_shader.tres" id="3_4ptq8"]
+[ext_resource type="Shader" uid="uid://dvxcln3hrqr41" path="res://src/cel-shader-base.gdshader" id="4_4ptq8"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_1c2mv"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_gbhdq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y646j"]
+render_priority = 0
+shader = ExtResource("4_4ptq8")
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 1.0
+shader_parameter/color = Color(0.407843, 0.592157, 0.423529, 1)
+shader_parameter/specular = Color(0.3, 0.3, 0.3, 0.5)
+shader_parameter/fresnel = Color(0.2, 0.2, 0.2, 0.3)
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gojnm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sb12i"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_1c2mv"]
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Ground Plane" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
-mesh = SubResource("PlaneMesh_1c2mv")
+material_override = ExtResource("3_4ptq8")
+mesh = SubResource("PlaneMesh_gbhdq")
+skeleton = NodePath("../Obstacles")
+surface_material_override/0 = SubResource("ShaderMaterial_y646j")
 
 [node name="Player" parent="." instance=ExtResource("1_gojnm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26726, 0)
-dash_duration = 0.2
+speed = 10.0
 camera_node_path = NodePath("../Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 25, 21.2673, 25)
+transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906307, 0.422618, -0.707107, -0.298836, 0.640856, 25, 17.5, 25)
 projection = 1
 size = 10.476
 script = ExtResource("2_1c2mv")
@@ -35,11 +53,13 @@ shadow_enabled = true
 [node name="Obstacles" type="Node3D" parent="."]
 
 [node name="Obstacle" type="Node3D" parent="Obstacles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.813643, -3.33303)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.11029, -3.33303)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Obstacle"]
+material_override = ExtResource("3_4ptq8")
 mesh = SubResource("CylinderMesh_gojnm")
 skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_sb12i")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Obstacles/Obstacle"]
 
@@ -47,9 +67,10 @@ skeleton = NodePath("../..")
 shape = SubResource("CylinderShape3D_1c2mv")
 
 [node name="Obstacle2" type="Node3D" parent="Obstacles"]
-transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 3.06909, 0.111023, -2.26792)
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 3.06909, 1.08132, -2.26792)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Obstacle2"]
+material_override = ExtResource("3_4ptq8")
 mesh = SubResource("CylinderMesh_gojnm")
 skeleton = NodePath("../..")
 
@@ -59,11 +80,7 @@ skeleton = NodePath("../..")
 shape = SubResource("CylinderShape3D_1c2mv")
 
 [node name="Obstacle3" type="Node3D" parent="Obstacles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88306, 0.111023, 3.66552)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Obstacle3"]
-mesh = SubResource("CylinderMesh_gojnm")
-skeleton = NodePath("../..")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88306, 1.09905, 3.66552)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Obstacles/Obstacle3"]
 
@@ -71,9 +88,10 @@ skeleton = NodePath("../..")
 shape = SubResource("CylinderShape3D_1c2mv")
 
 [node name="Obstacle4" type="Node3D" parent="Obstacles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.13301, 0.951235, 3.44475)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.13301, 1.13084, 3.44475)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Obstacle4"]
+material_override = ExtResource("3_4ptq8")
 mesh = SubResource("CylinderMesh_gojnm")
 skeleton = NodePath("../..")
 
@@ -83,9 +101,10 @@ skeleton = NodePath("../..")
 shape = SubResource("CylinderShape3D_1c2mv")
 
 [node name="Obstacle5" type="Node3D" parent="Obstacles"]
-transform = Transform3D(3.85959, 0, 0, 0, 3.85959, 0, 0, 0, 3.85959, -6.25539, 0.951235, -3.9351)
+transform = Transform3D(3.85959, 0, 0, 0, 3.85959, 0, 0, 0, 3.85959, -6.25539, 3.96288, -3.9351)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Obstacle5"]
+material_override = ExtResource("3_4ptq8")
 mesh = SubResource("CylinderMesh_gojnm")
 skeleton = NodePath("../..")
 

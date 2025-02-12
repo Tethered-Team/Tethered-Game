@@ -1,0 +1,93 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=15 format=3 uid="uid://bqc1m4bd812o6"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qhqgy"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qlg0r"]
+animation = &"Walking_A"
+advance_on_start = true
+use_custom_timeline = true
+timeline_length = 0.5
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dqkch"]
+animation = &"Dodge_Forward"
+advance_on_start = true
+use_custom_timeline = true
+timeline_length = 0.1
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 0
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tuyoq"]
+animation = &"Running_B"
+advance_on_start = true
+use_custom_timeline = true
+timeline_length = 0.5
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fjrip"]
+xfade_time = 0.1
+advance_mode = 2
+advance_expression = "velocity.length() > 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_smehm"]
+advance_mode = 2
+advance_expression = "is_dashing == true and is_running == false"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ur7pv"]
+xfade_time = 0.3
+advance_mode = 2
+advance_expression = "is_dashing == false and is_running == true"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y4r1p"]
+xfade_time = 0.3
+advance_mode = 2
+advance_expression = "is_dashing == false and is_running == false"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d2wvv"]
+xfade_time = 0.1
+advance_mode = 2
+advance_expression = "is_dashing == false and is_running == true"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3v2ag"]
+xfade_time = 0.1
+advance_mode = 2
+advance_expression = "is_dashing == false and is_running == false"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_jej6c"]
+"states/Base Movement/node" = SubResource("AnimationNodeAnimation_qlg0r")
+"states/Base Movement/position" = Vector2(404.8, 191.273)
+states/Dodge_Forward/node = SubResource("AnimationNodeAnimation_dqkch")
+states/Dodge_Forward/position = Vector2(708.8, 196.621)
+states/End/position = Vector2(168.8, 276)
+"states/Fast Movement/node" = SubResource("AnimationNodeAnimation_tuyoq")
+"states/Fast Movement/position" = Vector2(567.04, 347.6)
+states/Start/position = Vector2(155.2, 206.4)
+transitions = ["Start", "Base Movement", SubResource("AnimationNodeStateMachineTransition_fjrip"), "Base Movement", "Dodge_Forward", SubResource("AnimationNodeStateMachineTransition_smehm"), "Dodge_Forward", "Fast Movement", SubResource("AnimationNodeStateMachineTransition_ur7pv"), "Dodge_Forward", "Base Movement", SubResource("AnimationNodeStateMachineTransition_y4r1p"), "Base Movement", "Fast Movement", SubResource("AnimationNodeStateMachineTransition_d2wvv"), "Fast Movement", "Base Movement", SubResource("AnimationNodeStateMachineTransition_3v2ag")]
+graph_offset = Vector2(44, 97)
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_f1ej7"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_oprun"]
+xfade_time = 0.1
+advance_mode = 2
+advance_expression = "velocity.length() > 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a8ls1"]
+xfade_time = 0.1
+advance_mode = 2
+advance_expression = "velocity.length() <= 0"
+
+[resource]
+states/Idle/node = SubResource("AnimationNodeAnimation_qhqgy")
+states/Idle/position = Vector2(382.4, 121.072)
+states/Move/node = SubResource("AnimationNodeStateMachine_jej6c")
+states/Move/position = Vector2(576.8, 166)
+states/Start/position = Vector2(185.6, 121.178)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_f1ej7"), "Idle", "Move", SubResource("AnimationNodeStateMachineTransition_oprun"), "Move", "Idle", SubResource("AnimationNodeStateMachineTransition_a8ls1")]
