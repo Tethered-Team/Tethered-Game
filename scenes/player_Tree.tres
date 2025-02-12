@@ -33,7 +33,7 @@ loop_mode = 1
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fjrip"]
 xfade_time = 0.1
 advance_mode = 2
-advance_expression = "velocity.length() > 0"
+advance_expression = "movement_vector.length() > 0"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_smehm"]
 advance_mode = 2
@@ -77,12 +77,12 @@ advance_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_oprun"]
 xfade_time = 0.1
 advance_mode = 2
-advance_expression = "velocity.length() > 0"
+advance_expression = "movement_vector.length() > 0"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a8ls1"]
 xfade_time = 0.1
 advance_mode = 2
-advance_expression = "velocity.length() <= 0"
+advance_expression = "movement_vector.length() <= 0"
 
 [resource]
 states/Idle/node = SubResource("AnimationNodeAnimation_qhqgy")

@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+@export var gravity: float = 9.8  # Earth gravity
+var gravity_current: float = 0.0
 @export var speed: float = 5.0
 @export var dash_speed: float = 25  # Speed during dash
 @export var run_speed: float = 10.0
@@ -26,15 +28,18 @@ func _ready():
 func _process(delta: float) -> void:
 
 	get_movement_vector()
+	
 
 	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0: #Press dash when cooldown is over
 		is_dashing = true
 		dash_timer = dash_duration
 		velocity = movement_vector * dash_speed  # Apply dash speed
+		velocity.y = 0
 		dash_vector = velocity
 	elif Input.is_action_pressed("dash"): # holding dash
 		if is_dashing:
 			velocity = dash_vector
+			velocity.y = 0
 			if dash_timer > 0: #dash is still going
 				dash_timer = clampf(dash_timer - delta, 0, dash_duration)
 			elif dash_timer <= 0: # dash is out of time
@@ -43,6 +48,7 @@ func _process(delta: float) -> void:
 				dash_cooldown_timer = dash_cooldown
 		else: # dash is held to run when dash cooldown is going
 			velocity = movement_vector * run_speed
+			velocity.y = gravity_current
 			dash_cooldown_timer = clampf(dash_cooldown_timer - delta, 0, dash_cooldown)
 	elif Input.is_action_just_released("dash") and is_dashing: # when dash button is released
 		is_dashing = false
@@ -54,14 +60,20 @@ func _process(delta: float) -> void:
 		is_dashing = false
 		is_running = false
 		velocity = movement_vector * speed
+		velocity.y = gravity_current
 		
+	if not is_on_floor():
+		velocity.y -= gravity * delta  # Apply gravity
+	
+	
+	# print("Velocity Y: ", velocity.y, " Is on floor: ", is_on_floor())
 	
 	move_and_slide()
-
+	gravity_current = velocity.y
 
 func get_movement_vector():
 
-	movement_vector = Vector3.ZERO
+	movement_vector = Vector3(0, movement_vector.y, 0)
 
 	if Input.is_action_pressed("up"):
 		movement_vector.x += 1  # Adjusted for isometric view
