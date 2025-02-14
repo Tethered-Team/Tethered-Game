@@ -1,19 +1,20 @@
 extends Camera3D
 
-# The target node to follow (e.g., the player)
 @export var target: NodePath
 
-# Offset from the target (adjust for isometric view)
-@export var offset: Vector3 = Vector3(10, 15, 10)
+# Camera distance from the target
+@export var distance: float = 10.0
 
-# Smoothness of the camera movement (lower values = smoother)
+# Camera angles
+@export var angle_horizontal: float = 45.0 # Horizontal rotation (yaw)
+@export var angle_vertical: float = 30.0  # Vertical rotation (pitch)
+
+# Smoothness of camera movement
 @export var smooth_speed: float = 10.0
 
-# Reference to the target node
 var _target_node: Node3D
 
 func _ready():
-	# Ensure the target is set and valid
 	if target:
 		_target_node = get_node(target)
 	else:
@@ -21,10 +22,21 @@ func _ready():
 
 func _process(delta):
 	if _target_node:
-		# Calculate the desired position for the camera
+		# Convert angles from degrees to radians
+		var rad_h = deg_to_rad(angle_horizontal)
+		var rad_v = deg_to_rad(angle_vertical)
+		
+		# Calculate the camera offset using spherical coordinates
+		var offset = Vector3(
+			distance * cos(rad_v) * sin(rad_h), # X component
+			distance * sin(rad_v),              # Y component (height)
+			distance * cos(rad_v) * cos(rad_h)  # Z component
+		)
+
+		# Compute the desired position
 		var desired_position = _target_node.global_transform.origin + offset
 
-		# Smoothly interpolate the camera's position
+		# Smoothly interpolate the camera position
 		global_transform.origin = global_transform.origin.lerp(desired_position, smooth_speed * delta)
 
 		# Make the camera look at the target

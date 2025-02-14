@@ -1,18 +1,6 @@
-[gd_resource type="AnimationNodeStateMachine" load_steps=15 format=3 uid="uid://bqc1m4bd812o6"]
+[gd_resource type="AnimationNodeStateMachine" load_steps=17 format=3 uid="uid://bqc1m4bd812o6"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qhqgy"]
-animation = &"Idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qlg0r"]
-animation = &"Walking_A"
-advance_on_start = true
-use_custom_timeline = true
-timeline_length = 0.5
-stretch_time_scale = true
-start_offset = 0.0
-loop_mode = 1
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dqkch"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eof0h"]
 animation = &"Dodge_Forward"
 advance_on_start = true
 use_custom_timeline = true
@@ -21,7 +9,16 @@ stretch_time_scale = true
 start_offset = 0.0
 loop_mode = 0
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tuyoq"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qhqgy"]
+animation = &"Idle"
+advance_on_start = true
+use_custom_timeline = true
+timeline_length = 0.5
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8jt51"]
 animation = &"Running_B"
 advance_on_start = true
 use_custom_timeline = true
@@ -30,64 +27,72 @@ stretch_time_scale = true
 start_offset = 0.0
 loop_mode = 1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fjrip"]
-xfade_time = 0.1
-advance_mode = 2
-advance_expression = "movement_vector.length() > 0"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_smehm"]
-advance_mode = 2
-advance_expression = "is_dashing == true and is_running == false"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ur7pv"]
-xfade_time = 0.3
-advance_mode = 2
-advance_expression = "is_dashing == false and is_running == true"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y4r1p"]
-xfade_time = 0.3
-advance_mode = 2
-advance_expression = "is_dashing == false and is_running == false"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d2wvv"]
-xfade_time = 0.1
-advance_mode = 2
-advance_expression = "is_dashing == false and is_running == true"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3v2ag"]
-xfade_time = 0.1
-advance_mode = 2
-advance_expression = "is_dashing == false and is_running == false"
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_jej6c"]
-"states/Base Movement/node" = SubResource("AnimationNodeAnimation_qlg0r")
-"states/Base Movement/position" = Vector2(404.8, 191.273)
-states/Dodge_Forward/node = SubResource("AnimationNodeAnimation_dqkch")
-states/Dodge_Forward/position = Vector2(708.8, 196.621)
-states/End/position = Vector2(168.8, 276)
-"states/Fast Movement/node" = SubResource("AnimationNodeAnimation_tuyoq")
-"states/Fast Movement/position" = Vector2(567.04, 347.6)
-states/Start/position = Vector2(155.2, 206.4)
-transitions = ["Start", "Base Movement", SubResource("AnimationNodeStateMachineTransition_fjrip"), "Base Movement", "Dodge_Forward", SubResource("AnimationNodeStateMachineTransition_smehm"), "Dodge_Forward", "Fast Movement", SubResource("AnimationNodeStateMachineTransition_ur7pv"), "Dodge_Forward", "Base Movement", SubResource("AnimationNodeStateMachineTransition_y4r1p"), "Base Movement", "Fast Movement", SubResource("AnimationNodeStateMachineTransition_d2wvv"), "Fast Movement", "Base Movement", SubResource("AnimationNodeStateMachineTransition_3v2ag")]
-graph_offset = Vector2(44, 97)
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eqdw7"]
+animation = &"Walking_A"
+advance_on_start = true
+use_custom_timeline = true
+timeline_length = 0.5
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_f1ej7"]
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_oprun"]
-xfade_time = 0.1
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hssyv"]
 advance_mode = 2
-advance_expression = "movement_vector.length() > 0"
+advance_expression = "Vector2(movement_vector.x, movement_vector.y).length() > 0"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a8ls1"]
-xfade_time = 0.1
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_00sms"]
 advance_mode = 2
-advance_expression = "movement_vector.length() <= 0"
+advance_expression = "is_dashing == false and is_running == true and Vector2(movement_vector.x, movement_vector.y).length() > 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cda8s"]
+advance_mode = 2
+advance_expression = "is_dashing == true"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ktpo1"]
+advance_mode = 2
+advance_expression = "is_dashing == false and is_running == true and Vector2(movement_vector.x, movement_vector.y).length() > 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1jyte"]
+advance_mode = 2
+advance_expression = "is_dashing == true"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_v83ru"]
+advance_mode = 2
+advance_expression = "Vector2(movement_vector.x, movement_vector.y).length() <= 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hrqb8"]
+advance_mode = 2
+advance_expression = "Vector2(movement_vector.x, movement_vector.y).length() <= 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2838o"]
+advance_mode = 2
+advance_expression = "is_dashing == false and is_running == true"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ptsae"]
+advance_mode = 2
+advance_expression = "is_running == false and Vector3(movement_vector.x, 0, movement_vector.y).length() > 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_afsk4"]
+advance_mode = 2
+advance_expression = "is_dashing == false and is_running == false and Vector2(movement_vector.x, movement_vector.y).length() > 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eof0h"]
+advance_mode = 2
+advance_expression = "is_dashing == false and Vector2(movement_vector.x, movement_vector.y).length() <= 0"
 
 [resource]
+states/Dodge_Forward/node = SubResource("AnimationNodeAnimation_eof0h")
+states/Dodge_Forward/position = Vector2(967.2, 172.4)
+states/End/position = Vector2(1315.2, 89.6)
 states/Idle/node = SubResource("AnimationNodeAnimation_qhqgy")
-states/Idle/position = Vector2(382.4, 121.072)
-states/Move/node = SubResource("AnimationNodeStateMachine_jej6c")
-states/Move/position = Vector2(576.8, 166)
-states/Start/position = Vector2(185.6, 121.178)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_f1ej7"), "Idle", "Move", SubResource("AnimationNodeStateMachineTransition_oprun"), "Move", "Idle", SubResource("AnimationNodeStateMachineTransition_a8ls1")]
+states/Idle/position = Vector2(373.6, 197.872)
+states/Running_A/node = SubResource("AnimationNodeAnimation_8jt51")
+states/Running_A/position = Vector2(633.6, 335.6)
+states/Start/position = Vector2(-72.8, 203.578)
+states/Walking_A/node = SubResource("AnimationNodeAnimation_eqdw7")
+states/Walking_A/position = Vector2(600, 83.6)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_f1ej7"), "Idle", "Walking_A", SubResource("AnimationNodeStateMachineTransition_hssyv"), "Idle", "Running_A", SubResource("AnimationNodeStateMachineTransition_00sms"), "Idle", "Dodge_Forward", SubResource("AnimationNodeStateMachineTransition_cda8s"), "Dodge_Forward", "Running_A", SubResource("AnimationNodeStateMachineTransition_ktpo1"), "Walking_A", "Dodge_Forward", SubResource("AnimationNodeStateMachineTransition_1jyte"), "Running_A", "Idle", SubResource("AnimationNodeStateMachineTransition_v83ru"), "Walking_A", "Idle", SubResource("AnimationNodeStateMachineTransition_hrqb8"), "Walking_A", "Running_A", SubResource("AnimationNodeStateMachineTransition_2838o"), "Running_A", "Walking_A", SubResource("AnimationNodeStateMachineTransition_ptsae"), "Dodge_Forward", "Walking_A", SubResource("AnimationNodeStateMachineTransition_afsk4"), "Dodge_Forward", "Idle", SubResource("AnimationNodeStateMachineTransition_eof0h")]
+graph_offset = Vector2(-252, 6)
