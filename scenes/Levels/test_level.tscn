@@ -1,0 +1,144 @@
+[gd_scene load_steps=15 format=3 uid="uid://dfq2y3sot17aa"]
+
+[ext_resource type="PackedScene" uid="uid://leq1tlbs2pjb" path="res://scenes/enemy.tscn" id="1_gbhdq"]
+[ext_resource type="PackedScene" uid="uid://bqon2j8trw5g5" path="res://scenes/player.tscn" id="1_gojnm"]
+[ext_resource type="Script" uid="uid://veq0j781ybma" path="res://scripts/camera_3d.gd" id="2_1c2mv"]
+[ext_resource type="PackedScene" uid="uid://cepexqh0wcr2k" path="res://scenes/enemy_spawn_trigger.tscn" id="2_y646j"]
+[ext_resource type="PackedScene" uid="uid://dgr5vun318cfb" path="res://scenes/death_area.tscn" id="3_lnbra"]
+[ext_resource type="Texture2D" uid="uid://dvp8tx5g4v5ni" path="res://icon.svg" id="3_sb12i"]
+[ext_resource type="Shader" uid="uid://o7va7ippqypa" path="res://shaders/outline_test.gdshader" id="5_sb12i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gbhdq"]
+render_priority = 0
+shader = ExtResource("5_sb12i")
+shader_parameter/outlineColor = Color(0, 0, 0, 0.737255)
+shader_parameter/depth_threshold = 0.025
+shader_parameter/normal_threshold = 0.324
+shader_parameter/normal_smoothing = 0.55
+shader_parameter/max_thickness = 1.925
+shader_parameter/min_thickness = 0.5
+shader_parameter/max_distance = 75.0
+shader_parameter/min_distance = 2.0
+shader_parameter/grazing_fresnel_power = 5.0
+shader_parameter/grazing_angle_mask_power = 1.0
+shader_parameter/grazing_angle_modulation_factor = 50.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_y646j"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y646j"]
+size = Vector3(29.8527, 13.4263, 26.7051)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gd42f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eg032"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_eg032"]
+size = Vector3(10, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pj5lm"]
+size = Vector3(10.0007, 4.59912, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_gojnm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.33779, 0)
+collision_layer = 9
+dodge_toward_mouse = false
+gravity = 9.8
+run_speed = 15.0
+dash_speed = 30.0
+dash_duration = 0.2
+dash_cooldown = 0.5
+camera_node_path = NodePath("../Camera3D")
+
+[node name="Decal" type="Decal" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.41896, 0)
+texture_albedo = ExtResource("3_sb12i")
+distance_fade_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 31.972, 22.0977, 31.972)
+projection = 1
+size = 19.633
+near = 0.001
+script = ExtResource("2_1c2mv")
+target = NodePath("../Player")
+distance = 20.0
+angle_vertical = 35.0
+smooth_speed = 50.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
+material_override = SubResource("ShaderMaterial_gbhdq")
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_y646j")
+
+[node name="Enemy Spawn Trigger" parent="." node_paths=PackedStringArray("enemies") instance=ExtResource("2_y646j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.0908, 0.964035, 10.9137)
+enemies = [null, null, null, null]
+enemy_parent = NodePath("../Enemies")
+enemy_group = "Enemies"
+list = false
+parent = false
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Enemy Spawn Trigger"]
+transform = Transform3D(0.999847, -0.0100978, 0.0142926, 0.0101235, 0.999947, -0.0017269, -0.0142744, 0.00187131, 0.999896, 14.2756, 1.64731, -6.04007)
+shape = SubResource("BoxShape3D_y646j")
+
+[node name="Enemies" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.700414, 0)
+
+[node name="Enemy" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.78858, 9.53674e-07, 5.14523)
+
+[node name="Enemy2" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.72399, 9.53674e-07, -1.86526)
+SPAWN_POSE = 2
+
+[node name="Enemy3" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.1932, 1.90735e-06, 6.53773)
+SPAWN_POSE = 4
+
+[node name="Enemy4" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.2577, 4.76837e-06, 0.0726175)
+SPAWN_POSE = 5
+
+[node name="Death Area" parent="." instance=ExtResource("3_lnbra")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.26642, 0)
+
+[node name="Ground" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="Ground_Object" type="StaticBody3D" parent="Ground"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, -24.8109, 0)
+collision_layer = 8
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground_Object"]
+mesh = SubResource("BoxMesh_gd42f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Ground_Object"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_eg032")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.683427, 0.730019, 0, -0.730019, 0.683427, -1.08647, 7.47073, 0)
+shadow_enabled = true
+
+[node name="Obstacles" type="Node3D" parent="."]
+
+[node name="Dash_Pass_Wall" type="StaticBody3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.28713, 1.68474, 2.55518)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.57527, 0)
+mesh = SubResource("BoxMesh_eg032")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
+shape = SubResource("BoxShape3D_pj5lm")
+
+[connection signal="body_entered" from="Enemy Spawn Trigger" to="Enemy Spawn Trigger" method="_on_body_entered"]

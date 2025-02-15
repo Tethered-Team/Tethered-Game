@@ -1,4 +1,6 @@
-[gd_resource type="AnimationNodeStateMachine" load_steps=17 format=3 uid="uid://bqc1m4bd812o6"]
+[gd_resource type="AnimationNodeStateMachine" load_steps=18 format=3 uid="uid://bqc1m4bd812o6"]
+
+[ext_resource type="Curve" uid="uid://bdy0re8ao5eko" path="res://animation tree/Curves/linear.tres" id="1_8jt51"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eof0h"]
 animation = &"Dodge_Forward"
@@ -40,59 +42,81 @@ loop_mode = 1
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hssyv"]
+xfade_time = 0.5
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
-advance_expression = "Vector2(movement_vector.x, movement_vector.y).length() > 0"
+advance_expression = "Vector2(movement_vector.x, movement_vector.z).length() > 0"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_00sms"]
+xfade_time = 0.5
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
-advance_expression = "is_dashing == false and is_running == true and Vector2(movement_vector.x, movement_vector.y).length() > 0"
+advance_expression = "is_dashing == false and is_running == true and Vector2(movement_vector.x, movement_vector.z).length() > 0"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cda8s"]
+xfade_time = 0.1
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
 advance_expression = "is_dashing == true"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ktpo1"]
+xfade_time = 0.5
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
-advance_expression = "is_dashing == false and is_running == true and Vector2(movement_vector.x, movement_vector.y).length() > 0"
+advance_expression = "is_dashing == false and is_running == true and Vector2(movement_vector.x, movement_vector.z).length() > 0"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1jyte"]
+xfade_time = 0.1
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
 advance_expression = "is_dashing == true"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_v83ru"]
+xfade_time = 0.25
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
-advance_expression = "Vector2(movement_vector.x, movement_vector.y).length() <= 0"
+advance_expression = "Vector2(movement_vector.x, movement_vector.z).length() <= 0"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hrqb8"]
+xfade_time = 0.5
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
-advance_expression = "Vector2(movement_vector.x, movement_vector.y).length() <= 0"
+advance_expression = "Vector2(movement_vector.x, movement_vector.z).length() <= 0"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2838o"]
+xfade_time = 0.5
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
 advance_expression = "is_dashing == false and is_running == true"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ptsae"]
+xfade_time = 0.5
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
-advance_expression = "is_running == false and Vector3(movement_vector.x, 0, movement_vector.y).length() > 0"
+advance_expression = "is_running == false and Vector2(movement_vector.x, movement_vector.z).length() > 0"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_afsk4"]
+xfade_time = 0.5
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
-advance_expression = "is_dashing == false and is_running == false and Vector2(movement_vector.x, movement_vector.y).length() > 0"
+advance_expression = "is_dashing == false and is_running == false and Vector2(movement_vector.x, movement_vector.z).length() > 0"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eof0h"]
+xfade_time = 0.25
+xfade_curve = ExtResource("1_8jt51")
 advance_mode = 2
-advance_expression = "is_dashing == false and Vector2(movement_vector.x, movement_vector.y).length() <= 0"
+advance_expression = "is_dashing == false and Vector2(movement_vector.x, movement_vector.z).length() <= 0"
 
 [resource]
 states/Dodge_Forward/node = SubResource("AnimationNodeAnimation_eof0h")
-states/Dodge_Forward/position = Vector2(967.2, 172.4)
-states/End/position = Vector2(1315.2, 89.6)
+states/Dodge_Forward/position = Vector2(847.2, 178.444)
+states/End/position = Vector2(1085.2, 179.23)
 states/Idle/node = SubResource("AnimationNodeAnimation_qhqgy")
 states/Idle/position = Vector2(373.6, 197.872)
 states/Running_A/node = SubResource("AnimationNodeAnimation_8jt51")
 states/Running_A/position = Vector2(633.6, 335.6)
-states/Start/position = Vector2(-72.8, 203.578)
+states/Start/position = Vector2(201.867, 208.245)
 states/Walking_A/node = SubResource("AnimationNodeAnimation_eqdw7")
 states/Walking_A/position = Vector2(600, 83.6)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_f1ej7"), "Idle", "Walking_A", SubResource("AnimationNodeStateMachineTransition_hssyv"), "Idle", "Running_A", SubResource("AnimationNodeStateMachineTransition_00sms"), "Idle", "Dodge_Forward", SubResource("AnimationNodeStateMachineTransition_cda8s"), "Dodge_Forward", "Running_A", SubResource("AnimationNodeStateMachineTransition_ktpo1"), "Walking_A", "Dodge_Forward", SubResource("AnimationNodeStateMachineTransition_1jyte"), "Running_A", "Idle", SubResource("AnimationNodeStateMachineTransition_v83ru"), "Walking_A", "Idle", SubResource("AnimationNodeStateMachineTransition_hrqb8"), "Walking_A", "Running_A", SubResource("AnimationNodeStateMachineTransition_2838o"), "Running_A", "Walking_A", SubResource("AnimationNodeStateMachineTransition_ptsae"), "Dodge_Forward", "Walking_A", SubResource("AnimationNodeStateMachineTransition_afsk4"), "Dodge_Forward", "Idle", SubResource("AnimationNodeStateMachineTransition_eof0h")]
-graph_offset = Vector2(-252, 6)
+graph_offset = Vector2(86, -12)

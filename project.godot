@@ -15,6 +15,15 @@ run/main_scene="uid://dfq2y3sot17aa"
 config/features=PackedStringArray("4.4")
 config/icon="res://icon.svg"
 
+[autoload]
+
+InputHandler="*res://scripts/input_handler.gd"
+
+[global_group]
+
+Player=""
+Enemies=""
+
 [input]
 
 move_up={
@@ -51,3 +60,40 @@ dash={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":0,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
+aim_up={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":-1.0,"script":null)
+]
+}
+aim_down={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":1.0,"script":null)
+]
+}
+aim_left={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":2,"axis_value":-1.0,"script":null)
+]
+}
+aim_right={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":2,"axis_value":1.0,"script":null)
+]
+}
+attack_light={
+"deadzone": 0.2,
+"events": []
+}
+attack_heavy={
+"deadzone": 0.2,
+"events": []
+}
+
+[layer_names]
+
+3d_physics/layer_1="Player"
+3d_physics/layer_2="Dash Passable"
+3d_physics/layer_3="Dash Blocking"
+3d_physics/layer_4="Ground"
+3d_physics/layer_5="Other"
+3d_physics/layer_6="Damage Area"

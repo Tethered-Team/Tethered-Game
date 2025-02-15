@@ -1,5 +1,7 @@
 extends Area3D
 
+@export var has_been_triggered: bool = false
+
 @export var enemies: Array[Node3D]  # Manually assigned enemies
 @export var enemy_parent: NodePath  # Path to a parent node containing multiple enemies
 @export var enemy_group: String = "enemies"  # Group name for spawning all enemies in a group
@@ -9,18 +11,23 @@ extends Area3D
 @export var group: bool = true
 
 func _on_body_entered(body):
-	print("Trigger entered:", body)
+	
+	if not has_been_triggered:
+		print("Trigger entered:", body)
 
-	if body.is_in_group("Player") and body is CharacterBody3D:
-		if list:
-			enemies_by_list()
-			
-		if parent:
-			enemies_by_list()
-			
-		if group:
-			enemies_by_group()
-			
+		if body.is_in_group("Player") and body is CharacterBody3D:
+			if list:
+				enemies_by_list()
+				
+			if parent:
+				enemies_by_list()
+				
+			if group:
+				enemies_by_group()
+		
+		has_been_triggered = true
+		
+		
 func enemies_by_list():
 	# ✅ Spawn manually assigned enemies
 	for enemy in enemies:

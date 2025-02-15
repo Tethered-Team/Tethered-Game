@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dgr5vun318cfb"]
 
-[ext_resource type="Script" uid="uid://dts25sksmkudv" path="res://death_area.gd" id="1_wtpbu"]
+[ext_resource type="Script" uid="uid://dts25sksmkudv" path="res://scripts/death_area.gd" id="1_wtpbu"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_4ptq8"]
 size = Vector2(300, 300)
@@ -14,7 +14,6 @@ size = Vector3(82.1572, 9.83997, 71.9496)
 
 [node name="Death Area" type="Area3D"]
 collision_layer = 0
-collision_mask = 256
 script = ExtResource("1_wtpbu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
