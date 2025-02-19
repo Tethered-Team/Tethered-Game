@@ -1,0 +1,180 @@
+[gd_scene load_steps=25 format=3 uid="uid://bqon2j8trw5g5"]
+
+[ext_resource type="Script" uid="uid://dgdkbwej74o2b" path="res://scripts/player.gd" id="1_qlg0r"]
+[ext_resource type="PackedScene" uid="uid://c31loe8tv748i" path="res://assets/KayKit_Adventurers_1.0_FREE/Characters/gltf/Knight.tscn" id="2_tuyoq"]
+[ext_resource type="Script" uid="uid://8uvvde3ybwba" path="res://scripts/movement.gd" id="4_dqkch"]
+[ext_resource type="AnimationLibrary" uid="uid://dky6ipv7f220e" path="res://kayKit_adventurer.res" id="4_fjrip"]
+[ext_resource type="Script" uid="uid://juaxsf7ye7cm" path="res://scripts/dash.gd" id="5_qlg0r"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qlg0r"]
+height = 2.30491
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qlg0r"]
+animation = &"kayKit_adventurer/Dodge_Forward"
+advance_on_start = true
+use_custom_timeline = true
+timeline_length = 1.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 0
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tuyoq"]
+animation = &"kayKit_adventurer/Idle"
+advance_on_start = true
+use_custom_timeline = true
+timeline_length = 1.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fjrip"]
+animation = &"kayKit_adventurer/Running_B"
+advance_on_start = true
+use_custom_timeline = true
+timeline_length = 1.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_smehm"]
+animation = &"kayKit_adventurer/Walking_A"
+advance_on_start = true
+use_custom_timeline = true
+timeline_length = 1.0
+stretch_time_scale = true
+start_offset = 0.0
+loop_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ur7pv"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y4r1p"]
+advance_mode = 2
+advance_expression = "move_vector.length() >  0 and
+not dash.is_dashing and
+not dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d2wvv"]
+advance_mode = 2
+advance_expression = "move_vector.length() >  0 and
+not dash.is_dashing and
+is dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3v2ag"]
+advance_mode = 2
+advance_expression = "move_vector.length() >  0 and
+not dash.is_dashing and
+is dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jej6c"]
+advance_mode = 2
+advance_expression = "is dash.is_dashing and
+not dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_f1ej7"]
+advance_mode = 2
+advance_expression = "is dash.is_dashing and
+not dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_oprun"]
+advance_mode = 2
+advance_expression = "move_vector.length() <=  0 and
+not dash.is_dashing and
+not dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a8ls1"]
+advance_mode = 2
+advance_expression = "move_vector.length() <=  0 and
+not dash.is_dashing and
+not dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qfm1y"]
+advance_mode = 2
+advance_expression = "move_vector.length() <=  0 and
+not dash.is_dashing and
+not dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fulsm"]
+advance_mode = 2
+advance_expression = "move_vector.length() <=  0 and
+not dash.is_dashing and
+not dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4r5pv"]
+advance_mode = 2
+advance_expression = "move_vector.length() <=  0 and
+not dash.is_dashing and
+not dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_60mlk"]
+advance_mode = 2
+advance_expression = "move_vector.length() >  0 and
+not dash.is_dashing and
+not dash.is_running"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_i4ail"]
+states/Dash/node = SubResource("AnimationNodeAnimation_qlg0r")
+states/Dash/position = Vector2(783.333, 137.111)
+states/Idle/node = SubResource("AnimationNodeAnimation_tuyoq")
+states/Idle/position = Vector2(380, 138)
+states/Running/node = SubResource("AnimationNodeAnimation_fjrip")
+states/Running/position = Vector2(592.667, 241.333)
+states/Walking/node = SubResource("AnimationNodeAnimation_smehm")
+states/Walking/position = Vector2(581.333, 64.6667)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ur7pv"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_y4r1p"), "Idle", "Running", SubResource("AnimationNodeStateMachineTransition_d2wvv"), "Dash", "Running", SubResource("AnimationNodeStateMachineTransition_3v2ag"), "Walking", "Dash", SubResource("AnimationNodeStateMachineTransition_jej6c"), "Idle", "Dash", SubResource("AnimationNodeStateMachineTransition_f1ej7"), "Running", "Idle", SubResource("AnimationNodeStateMachineTransition_oprun"), "Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_a8ls1"), "Walking", "Running", SubResource("AnimationNodeStateMachineTransition_qfm1y"), "Running", "Walking", SubResource("AnimationNodeStateMachineTransition_fulsm"), "Dash", "Idle", SubResource("AnimationNodeStateMachineTransition_4r5pv"), "Dash", "Walking", SubResource("AnimationNodeStateMachineTransition_60mlk")]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fjrip"]
+height = 1.93799
+
+[node name="Player" type="CharacterBody3D"]
+collision_mask = 14
+script = ExtResource("1_qlg0r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.162869, 0)
+shape = SubResource("CapsuleShape3D_qlg0r")
+
+[node name="Knight" parent="." instance=ExtResource("2_tuyoq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.00436, 0)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Knight")
+tree_root = SubResource("AnimationNodeStateMachine_i4ail")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Knight")
+libraries = {
+&"kayKit_adventurer": ExtResource("4_fjrip")
+}
+
+[node name="WeaponHandler" type="Node3D" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="WeaponHandler"]
+
+[node name="Hitbox" type="Area3D" parent="WeaponHandler"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WeaponHandler/Hitbox"]
+
+[node name="VFX" type="Node3D" parent="WeaponHandler"]
+
+[node name="Hurtbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.188721, 0)
+shape = SubResource("CylinderShape3D_fjrip")
+
+[node name="Movement" type="Node" parent="."]
+script = ExtResource("4_dqkch")
+
+[node name="Dash" type="Node" parent="."]
+script = ExtResource("5_qlg0r")
+
+[node name="Stats" type="Node" parent="."]
+
+[node name="Buffs" type="Node" parent="."]
+
+[node name="Abilities" type="Node" parent="."]
+
+[node name="StateMachine" type="Node" parent="."]

@@ -5,7 +5,6 @@
 [ext_resource type="Script" uid="uid://veq0j781ybma" path="res://scripts/camera_3d.gd" id="2_1c2mv"]
 [ext_resource type="PackedScene" uid="uid://cepexqh0wcr2k" path="res://scenes/enemy_spawn_trigger.tscn" id="2_y646j"]
 [ext_resource type="PackedScene" uid="uid://dgr5vun318cfb" path="res://scenes/death_area.tscn" id="3_lnbra"]
-[ext_resource type="Texture2D" uid="uid://dvp8tx5g4v5ni" path="res://icon.svg" id="3_sb12i"]
 [ext_resource type="Shader" uid="uid://o7va7ippqypa" path="res://shaders/outline_test.gdshader" id="5_sb12i"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gbhdq"]
@@ -30,6 +29,10 @@ size = Vector2(2, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_y646j"]
 size = Vector3(29.8527, 13.4263, 26.7051)
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_gd42f"]
+vertices = PackedVector3Array(-24.5, 0.189102, 2.5, -8.5, 0.189102, 2.5, -8.25, 0.189102, 0.5, -8.25, 0.189102, -24.5, -24.5, 0.189102, -24.5, 3.5, 0.189102, 0.75, 3.75, 0.189102, -24.5, 5, 0.189102, 0.75, 5, 0.189102, 2.75, 24.5, 0.189102, 2.75, 24.5, 0.189102, -24.5, -8.5, 0.189102, 4.75, -7.25, 0.189102, 24.5, -7, 0.189102, 4.75, -24.5, 0.189102, 24.5, 5, 0.189102, 4.75, 3.5, 0.189102, 4.75, 3.75, 0.189102, 24.5, 24.5, 0.189102, 24.5)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(2, 3, 5), PackedInt32Array(5, 3, 6), PackedInt32Array(9, 8, 7), PackedInt32Array(7, 5, 6), PackedInt32Array(6, 10, 7), PackedInt32Array(7, 10, 9), PackedInt32Array(0, 1, 11), PackedInt32Array(11, 13, 12), PackedInt32Array(12, 14, 11), PackedInt32Array(11, 14, 0), PackedInt32Array(15, 8, 9), PackedInt32Array(17, 16, 15), PackedInt32Array(17, 15, 18), PackedInt32Array(18, 15, 9), PackedInt32Array(13, 16, 12), PackedInt32Array(12, 16, 17)]
+
 [sub_resource type="BoxMesh" id="BoxMesh_gd42f"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eg032"]
@@ -43,20 +46,6 @@ size = Vector3(10.0007, 4.59912, 1)
 [node name="Node3D" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_gojnm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.33779, 0)
-collision_layer = 9
-dodge_toward_mouse = false
-gravity = 9.8
-run_speed = 15.0
-dash_speed = 30.0
-dash_duration = 0.2
-dash_cooldown = 0.5
-camera_node_path = NodePath("../Camera3D")
-
-[node name="Decal" type="Decal" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.41896, 0)
-texture_albedo = ExtResource("3_sb12i")
-distance_fade_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 31.972, 22.0977, 31.972)
@@ -104,41 +93,98 @@ SPAWN_POSE = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.2577, 4.76837e-06, 0.0726175)
 SPAWN_POSE = 5
 
+[node name="Enemy5" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5983, 9.53674e-07, -9.16574)
+
+[node name="Enemy6" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.66286, 9.53674e-07, -16.1762)
+SPAWN_POSE = 2
+
+[node name="Enemy7" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.19365, 1.90735e-06, -7.77324)
+SPAWN_POSE = 4
+
+[node name="Enemy8" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.12915, 4.76837e-06, -14.2384)
+SPAWN_POSE = 5
+
+[node name="Enemy9" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.4266, 9.53674e-07, 15.6963)
+
+[node name="Enemy10" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.4912, 9.53674e-07, 8.68583)
+SPAWN_POSE = 2
+
+[node name="Enemy11" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.02194, 1.90735e-06, 17.0888)
+SPAWN_POSE = 4
+
+[node name="Enemy12" parent="Enemies" instance=ExtResource("1_gbhdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.95745, 4.76837e-06, 10.6237)
+SPAWN_POSE = 5
+
 [node name="Death Area" parent="." instance=ExtResource("3_lnbra")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.26642, 0)
-
-[node name="Ground" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-
-[node name="Ground_Object" type="StaticBody3D" parent="Ground"]
-transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, -24.8109, 0)
-collision_layer = 8
-collision_mask = 0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground_Object"]
-mesh = SubResource("BoxMesh_gd42f")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Ground_Object"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-shape = SubResource("BoxShape3D_eg032")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.683427, 0.730019, 0, -0.730019, 0.683427, -1.08647, 7.47073, 0)
 shadow_enabled = true
 
-[node name="Obstacles" type="Node3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_gd42f")
 
-[node name="Dash_Pass_Wall" type="StaticBody3D" parent="Obstacles"]
+[node name="Ground" type="Node3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="Ground_Object" type="StaticBody3D" parent="NavigationRegion3D/Ground"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, -24.8109, 0)
+collision_layer = 8
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Ground/Ground_Object"]
+mesh = SubResource("BoxMesh_gd42f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ground/Ground_Object"]
+shape = SubResource("BoxShape3D_eg032")
+
+[node name="Obstacles" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="Dash_Pass_Wall" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.28713, 1.68474, 2.55518)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Wall"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.57527, 0)
 mesh = SubResource("BoxMesh_eg032")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Wall"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("BoxShape3D_pj5lm")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
+vertices = PackedVector3Array(-7.26516, 0, 2.098, -7.31308, 0, -1.95954, 6.34494, 0, -1.76432, 6.1978, 0, 2.3187)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="Dash_Pass_Wall2" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.28713, 1.68474, 2.55518)
+collision_layer = 2
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.57527, 0)
+mesh = SubResource("BoxMesh_eg032")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
+shape = SubResource("BoxShape3D_pj5lm")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
+vertices = PackedVector3Array(-7.26516, 0, 2.098, -7.31308, 0, -1.95954, 6.34494, 0, -1.76432, 6.1978, 0, 2.3187)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
 
 [connection signal="body_entered" from="Enemy Spawn Trigger" to="Enemy Spawn Trigger" method="_on_body_entered"]

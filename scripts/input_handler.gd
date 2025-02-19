@@ -7,9 +7,11 @@ var current_input_scheme: INPUT_SCHEMES = INPUT_SCHEMES.KBM
 var input_buffer: Dictionary = {}
 @export var buffer_time: float = 0.2  # Buffer duration (200ms)
 
+var input_vector: Vector2 = Vector2.ZERO
+var dash_pressed: bool = false
+var dash_held: bool = false
+var dash_released: bool = false
 
-var movement_vector: Vector2 = Vector2.ZERO
-var is_dashing: bool = false
 var aim_direction: Vector3 = Vector3.ZERO  # Aim direction (Mouse/Gamepad)
 var aim_angle: float = 0.0  # Right stick angle
 
@@ -23,13 +25,35 @@ func _input(event):
 		switch_input_scheme(INPUT_SCHEMES.TOUCH)
 
 	# **Handle movement input**
-	movement_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 
 	# **Handle dash input**
-	is_dashing = Input.is_action_pressed("dash")
+	update_dash_input()
 
 	# **Update aiming direction**
 	update_aim_direction()
+	
+	#print(input_buffer)
+
+# ✅ **Detect Dash Input Properly**
+func update_dash_input():
+	dash_pressed = Input.is_action_just_pressed("dash")
+	dash_held = Input.is_action_pressed("dash")
+	dash_released = Input.is_action_just_released("dash")
+
+	if dash_pressed:
+		buffer_input("dash")  # Buffer the dash input for responsiveness
+
+# ✅ **Get Dash Input Status for Dash System**
+func is_dash_pressed() -> bool:
+	return dash_pressed or get_buffered_input("dash")
+
+func is_dash_held() -> bool:
+	return dash_held
+
+func is_dash_released() -> bool:
+	return dash_released
+
 
 
 func buffer_input(action: String):
@@ -64,12 +88,22 @@ func get_input_scheme_name(scheme: INPUT_SCHEMES) -> String:
 	return "Unknown"
 
 # ✅ **Get Movement Vector**
-func get_movement_vector() -> Vector2:
-	return movement_vector
+func get_movement_vector() -> Vector3:
+	var camera = get_viewport().get_camera_3d()
+	if not camera:
+		return Vector3.ZERO
 
-# ✅ **Check if the Player is Dashing**
-func is_player_dashing() -> bool:
-	return is_dashing
+	# Get camera's Y rotation (Yaw)
+	var camera_yaw = camera.global_transform.basis.get_euler().y
+
+	# Convert input into a movement vector (forward is initially -Z)
+	var movement_vector = Vector3(input_vector.x, 0, input_vector.y).rotated(Vector3.UP, camera_yaw)
+
+	return movement_vector
+	
+func get_input_vector() -> Vector2:
+	return input_vector
+
 
 # ✅ **Get Direction to Mouse Pointer (3D)**
 func get_mouse_direction(origin: Node3D) -> Vector3:

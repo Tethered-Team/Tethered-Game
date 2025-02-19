@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
+@onready var navigation_agent_3d: NavigationAgent3D = $NavigationAgent3D
 
 var player
 var player_position_history: Array[Vector3] = []
@@ -73,14 +74,16 @@ func move_towards_player(delta):
 	if player_position_history.size() >= delay_steps:
 		var delayed_position = player_position_history[0]  # Oldest stored position
 
+		navigation_agent_3d.target_position = delayed_position
+
 		# **Determine movement direction**
-		var target_direction = (delayed_position - global_position).normalized()
+		var target_direction = (navigation_agent_3d.get_next_path_position() - global_position).normalized()
 
 		# **Rotate smoothly toward movement direction**
-		rotate_toward_target(target_direction, delta)
+		rotate_toward_target(target_direction, speed * delta)
 
 		# **Move forward relative to facing direction**
-		velocity = global_transform.basis.z * speed
+		set_velocity(global_transform.basis.z * speed)
 		#print(velocity, Vector2(velocity.x, velocity.z).normalized().length())
 
 # ✅ **Smooth Rotation Toward Target**
