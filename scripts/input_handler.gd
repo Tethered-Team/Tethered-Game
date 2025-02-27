@@ -19,7 +19,7 @@ func _input(event):
 	# **Detect input scheme dynamically**
 	if event is InputEventKey or event is InputEventMouseMotion or event is InputEventMouseButton:
 		switch_input_scheme(INPUT_SCHEMES.KBM)
-	elif event is InputEventJoypadMotion or event is InputEventJoypadButton:
+	elif ( event is InputEventJoypadMotion and Input.get_vector("move_left", "move_right", "move_up", "move_down").length() > .05 ) or event is InputEventJoypadButton:
 		switch_input_scheme(INPUT_SCHEMES.GAMEPAD)
 	elif event is InputEventScreenTouch or event is InputEventScreenDrag:
 		switch_input_scheme(INPUT_SCHEMES.TOUCH)
@@ -126,18 +126,7 @@ func get_mouse_direction(origin: Node3D) -> Vector3:
 
 # ✅ **Update Aiming Direction (Mouse or Right Stick)**
 func update_aim_direction():
-	# **Gamepad Right Stick Input**
-	var right_stick = Vector2(
-		Input.get_action_strength("aim_right") - Input.get_action_strength("aim_left"),
-		Input.get_action_strength("aim_down") - Input.get_action_strength("aim_up")
-	)
-
-	if right_stick.length() > 0.1:  # Deadzone check
-		aim_angle = rad_to_deg(right_stick.angle())  # Convert to degrees
-		aim_direction = Vector3(right_stick.x, 0, right_stick.y).normalized()
-	else:
-		aim_angle = 0.0
-		aim_direction = Vector3.ZERO
+	pass
 
 # ✅ **Get Right Stick Aim Angle**
 func get_aim_angle() -> float:

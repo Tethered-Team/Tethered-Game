@@ -8,8 +8,8 @@ var gravity_current: float = 0.0
 
 
 func apply_rotation(player: CharacterBody3D, move_vector: Vector3):
-	if move_vector.length() > 0.01:
-		player.look_at(player.global_position - player.velocity, Vector3.UP)
+	if move_vector.length() > 0.01 or player.is_dashing:
+		player.look_at(player.global_position - Vector3(player.velocity.x, 0, player.velocity.z), Vector3.UP)
 
 func apply_movement(player: CharacterBody3D, move_vector: Vector3, delta: float, is_grounded: bool):
 	
