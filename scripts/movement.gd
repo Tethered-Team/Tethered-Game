@@ -1,10 +1,15 @@
 extends Node
 
 @export var speed: float = 5.0
-@export var rotation_speed: float = 5.0
+@export var rotation_speed: float = 10.0
 @export var gravity: float = 9.8
 
 var gravity_current: float = 0.0
+func apply_smooth_rotation(player: CharacterBody3D, move_vector: Vector3, delta: float):
+	if move_vector.length() > 0.01 or player.is_dashing:
+		var target_direction = player.velocity.normalized()
+		var target_basis = Basis.looking_at(-target_direction, Vector3.UP)
+		player.global_transform.basis = player.global_transform.basis.slerp(target_basis, delta * rotation_speed)
 
 
 func apply_rotation(player: CharacterBody3D, move_vector: Vector3):

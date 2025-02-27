@@ -15,10 +15,11 @@ enum SPAWN_POSES {FLOOR, FLOOR_LONG, STANDING, IDLE, GROUND, SPAWN_AIR, RESURREC
 @export var spawn_delay: float = 1.0  # Time before AI starts moving
 
 # Movement settings
-@export var gravity: float = 9.8
+@export var gravity: float = 20
 var gravity_current: float = 0.0
 @export var speed: float = 2.0
-@export var turn_speed: float = 10.0
+@export var turn_speed: float = 2
+var angle_toward_player: float = 1
 
 # AI behavior settings
 @export var delay_steps: int = 20  # Delay in frames before reacting to player
@@ -48,7 +49,8 @@ func _physics_process(delta):
 
 	if has_started_moving:
 		update_player_history()
-		move_towards_player(delta)
+		if(is_grounded):
+			move_towards_player(delta)
 
 	move_and_slide()
 
@@ -80,13 +82,22 @@ func move_towards_player(delta):
 		var target_direction = (navigation_agent_3d.get_next_path_position() - global_position).normalized()
 
 		# **Rotate smoothly toward movement direction**
-		rotate_toward_target(target_direction, speed * delta)
+		rotate_toward_target(target_direction, turn_speed * 1/angle_toward_player * delta)
 
 		# **Move forward relative to facing direction**
-		set_velocity(global_transform.basis.z * speed)
+		set_velocity(global_transform.basis.z * angle_toward_player * speed)
 		#print(velocity, Vector2(velocity.x, velocity.z).normalized().length())
 
 # ✅ **Smooth Rotation Toward Target**
 func rotate_toward_target(target_direction: Vector3, delta: float):
-	var target_basis = Basis().looking_at(-target_direction, Vector3.UP)  # Flip direction
+	var target_basis = Basis.looking_at(-target_direction, Vector3.UP)  # Flip direction
 	global_transform.basis = global_transform.basis.slerp(target_basis, delta * turn_speed)
+	# Calculate the angle difference between the current direction and the target direction
+	var current_direction = -global_transform.basis.z
+	var angle_diff = current_direction.angle_to(target_direction)
+
+	# Normalize the angle difference to a value between 0 and 1
+	var normalized_angle_difference = angle_diff / PI
+
+	# Store the normalized angle difference
+	angle_toward_player = normalized_angle_difference
