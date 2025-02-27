@@ -7,8 +7,8 @@ extends Node3D
 @export var angle_horizontal: float = 45.0 # yaw
 @export var angle_vertical: float = 30.0  # pitch
 
-@export var limit_horizontal: float = 10.0
-@export var limit_vertical: float = 10.0
+@export var limit_horizontal: float = 5.0
+@export var limit_vertical: float = 5.0
 @export var horizontal_offset: float = 2.0
 @export var vertical_offset: float = 1.0
 
