@@ -1,11 +1,10 @@
-[gd_scene load_steps=32 format=3 uid="uid://bqon2j8trw5g5"]
+[gd_scene load_steps=31 format=3 uid="uid://bqon2j8trw5g5"]
 
 [ext_resource type="Script" uid="uid://dgdkbwej74o2b" path="res://scripts/player.gd" id="1_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://c31loe8tv748i" path="res://assets/KayKit_Adventurers_1.0_FREE/Characters/gltf/Knight.tscn" id="2_tuyoq"]
 [ext_resource type="Curve" uid="uid://bdy0re8ao5eko" path="res://animation tree/Curves/linear.tres" id="3_tuyoq"]
 [ext_resource type="Script" uid="uid://8uvvde3ybwba" path="res://scripts/movement.gd" id="4_dqkch"]
-[ext_resource type="AnimationLibrary" uid="uid://dky6ipv7f220e" path="res://kayKit_adventurer.res" id="4_fjrip"]
-[ext_resource type="Script" uid="uid://dpp78q4pwn2tm" path="res://scripts/weapon_handler.gd" id="5_fjrip"]
+[ext_resource type="AnimationLibrary" uid="uid://dky6ipv7f220e" path="res://assets/kayKit_adventurer.res" id="4_fjrip"]
 [ext_resource type="Script" uid="uid://juaxsf7ye7cm" path="res://scripts/dash.gd" id="5_qlg0r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qlg0r"]
@@ -220,7 +219,6 @@ libraries = {
 }
 
 [node name="WeaponHandler" type="Node3D" parent="."]
-script = ExtResource("5_fjrip")
 
 [node name="AnimationTree" type="AnimationTree" parent="WeaponHandler"]
 

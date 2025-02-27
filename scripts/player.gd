@@ -27,11 +27,13 @@ func _physics_process(delta):
 	
 	movement.apply_movement(self, move_vector, delta, is_grounded)
 
-	# Handle rotation
-	movement.apply_rotation(self, move_vector)
+
+	
 
 	# Handle dash input
 	dash.handle_dash(self, delta)
+	
+	movement.apply_rotation(self, move_vector)
 
 	is_dashing = dash.is_dashing
 	is_running = dash.is_running

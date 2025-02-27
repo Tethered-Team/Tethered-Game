@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://cti74sdotxvc5"]
+
+[ext_resource type="Script" uid="uid://veq0j781ybma" path="res://scripts/main_camera.gd" id="1_x31i4"]
+[ext_resource type="Shader" uid="uid://o7va7ippqypa" path="res://shaders/outline_test.gdshader" id="2_oeyyd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gbhdq"]
+render_priority = 0
+shader = ExtResource("2_oeyyd")
+shader_parameter/outlineColor = Color(0, 0, 0, 0.737255)
+shader_parameter/depth_threshold = 0.025
+shader_parameter/normal_threshold = 0.324
+shader_parameter/normal_smoothing = 0.55
+shader_parameter/max_thickness = 1.925
+shader_parameter/min_thickness = 0.5
+shader_parameter/max_distance = 75.0
+shader_parameter/min_distance = 2.0
+shader_parameter/grazing_fresnel_power = 5.0
+shader_parameter/grazing_angle_mask_power = 1.0
+shader_parameter/grazing_angle_modulation_factor = 50.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_y646j"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="MainCamera" type="Node3D"]
+script = ExtResource("1_x31i4")
+target = NodePath("../Player")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+projection = 1
+size = 19.633
+near = 0.001
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
+material_override = SubResource("ShaderMaterial_gbhdq")
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_y646j")
