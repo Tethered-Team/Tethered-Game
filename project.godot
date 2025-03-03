@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="ExoRogue"
+config/name="Tethered"
 run/main_scene="uid://dfq2y3sot17aa"
 config/features=PackedStringArray("4.4")
 config/icon="res://icon.svg"
@@ -120,6 +120,6 @@ lights_and_shadows/directional_shadow/soft_shadow_filter_quality=1
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality.mobile=1
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality=1
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality.mobile=1
+lights_and_shadows/positional_shadow/atlas_16_bits=false
 environment/ssao/blur_passes=4
 environment/ssil/blur_passes=6
-lights_and_shadows/positional_shadow/atlas_16_bits=false

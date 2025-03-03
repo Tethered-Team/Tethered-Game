@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3 uid="uid://c2xqh2hfmpsgk"]
+
+[ext_resource type="Script" uid="uid://d4fs1nfs27ond" path="res://scenes/Weapons/weapon_data.gd" id="1_nlhdf"]
+
+[resource]
+script = ExtResource("1_nlhdf")
+name = "Sword"
+damage = 15
+attack_speed = 1.2
+effect = "bleed"
+light_combo = Array[String](["attack_0", "attack_1", "attack_2"])
+heavy_combo = Array[String](["heavy_attack_0", "heavy_attack_1"])
+special_combo = Array[String](["special_0"])
+metadata/_custom_type_script = "uid://d4fs1nfs27ond"

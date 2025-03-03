@@ -1,10 +1,10 @@
 [gd_scene load_steps=14 format=3 uid="uid://dfq2y3sot17aa"]
 
-[ext_resource type="PackedScene" uid="uid://leq1tlbs2pjb" path="res://scenes/enemy.tscn" id="1_gbhdq"]
-[ext_resource type="PackedScene" uid="uid://bqon2j8trw5g5" path="res://scenes/player.tscn" id="1_gojnm"]
+[ext_resource type="PackedScene" uid="uid://leq1tlbs2pjb" path="res://scenes/enemies/enemy.tscn" id="1_gbhdq"]
+[ext_resource type="PackedScene" uid="uid://bqon2j8trw5g5" path="res://scenes/player/player.tscn" id="1_gojnm"]
 [ext_resource type="PackedScene" uid="uid://cti74sdotxvc5" path="res://main_camera.tscn" id="2_wa5q0"]
-[ext_resource type="PackedScene" uid="uid://cepexqh0wcr2k" path="res://scenes/enemy_spawn_trigger.tscn" id="2_y646j"]
-[ext_resource type="PackedScene" uid="uid://dgr5vun318cfb" path="res://scenes/death_area.tscn" id="3_lnbra"]
+[ext_resource type="PackedScene" uid="uid://cepexqh0wcr2k" path="res://scenes/game elements/enemy_spawn_trigger.tscn" id="2_y646j"]
+[ext_resource type="PackedScene" uid="uid://dgr5vun318cfb" path="res://scenes/game elements/death_area.tscn" id="3_lnbra"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y646j"]
 size = Vector3(29.8527, 13.4263, 26.7051)
