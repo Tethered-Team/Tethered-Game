@@ -1,12 +1,13 @@
 [gd_scene load_steps=34 format=3 uid="uid://bqon2j8trw5g5"]
-[gd_scene load_steps=34 format=3 uid="uid://bqon2j8trw5g5"]
 
-[ext_resource type="Script" uid="uid://dgdkbwej74o2b" path="res://scripts/player.gd" id="1_qlg0r"]
+[ext_resource type="Script" uid="uid://dgdkbwej74o2b" path="res://scenes/player/player.gd" id="1_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://c31loe8tv748i" path="res://assets/KayKit_Adventurers_1.0_FREE/Characters/gltf/Knight.tscn" id="2_tuyoq"]
 [ext_resource type="Curve" uid="uid://bdy0re8ao5eko" path="res://animation tree/Curves/linear.tres" id="3_tuyoq"]
 [ext_resource type="Script" uid="uid://8uvvde3ybwba" path="res://scripts/movement.gd" id="4_dqkch"]
 [ext_resource type="AnimationLibrary" uid="uid://dky6ipv7f220e" path="res://assets/kayKit_adventurer.res" id="4_fjrip"]
-[ext_resource type="Script" uid="uid://juaxsf7ye7cm" path="res://scripts/dash.gd" id="5_qlg0r"]
+[ext_resource type="Script" uid="uid://bw3xld3ifv5vg" path="res://scenes/Weapons/weapon_component.gd" id="5_0owmy"]
+[ext_resource type="Script" uid="uid://juaxsf7ye7cm" path="res://scenes/player/dash.gd" id="5_qlg0r"]
+[ext_resource type="Resource" uid="uid://c2xqh2hfmpsgk" path="res://scenes/Weapons/sword/sword.tres" id="6_qek5x"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qlg0r"]
 height = 2.30491
@@ -30,7 +31,7 @@ start_offset = 0.0
 loop_mode = 1
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fjrip"]
-animation = &"kayKit_adventurer/Running_B"
+animation = &"kayKit_adventurer/Running_A"
 advance_on_start = true
 use_custom_timeline = true
 timeline_length = 0.4
@@ -42,7 +43,7 @@ loop_mode = 1
 animation = &"kayKit_adventurer/Walking_A"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ur7pv"]
-animation = &"kayKit_adventurer/Running_A"
+animation = &"kayKit_adventurer/Running_B"
 advance_on_start = true
 use_custom_timeline = true
 timeline_length = 0.4
@@ -68,15 +69,6 @@ stretch_time_scale = true
 start_offset = 0.0
 loop_mode = 1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3v2ag"]
-animation = &"kayKit_adventurer/Walking_C"
-advance_on_start = true
-use_custom_timeline = true
-timeline_length = 0.6
-stretch_time_scale = true
-start_offset = 0.0
-loop_mode = 1
-
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_d2wvv"]
 blend_point_0/node = SubResource("AnimationNodeAnimation_smehm")
 blend_point_0/pos = -0.9
@@ -86,13 +78,9 @@ blend_point_2/node = SubResource("AnimationNodeAnimation_y4r1p")
 blend_point_2/pos = 0.1
 blend_point_3/node = SubResource("AnimationNodeAnimation_d2wvv")
 blend_point_3/pos = 0.3
-blend_point_4/node = SubResource("AnimationNodeAnimation_3v2ag")
-blend_point_4/pos = 0.6
 min_space = 0.0
 value_label = "move_vector.length()"
 sync = true
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qek5x"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qek5x"]
 
@@ -189,23 +177,13 @@ is_running == false"
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5gtgg"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_h17s1"]
-switch_mode = 2
-advance_mode = 2
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_i4ail"]
 states/Dash/node = SubResource("AnimationNodeAnimation_qlg0r")
 states/Dash/position = Vector2(850.222, 58.8148)
 states/End/position = Vector2(1529.67, 146.778)
-states/Dash/position = Vector2(850.222, 58.8148)
-states/End/position = Vector2(1529.67, 146.778)
 states/Idle/node = SubResource("AnimationNodeAnimation_tuyoq")
 states/Idle/position = Vector2(461, 155)
-states/Idle/position = Vector2(461, 155)
 states/Running/node = SubResource("AnimationNodeAnimation_fjrip")
-states/Running/position = Vector2(749.667, 372.333)
 states/Running/position = Vector2(749.667, 372.333)
 states/Walk/node = SubResource("AnimationNodeBlendSpace1D_d2wvv")
 states/Walk/position = Vector2(727, -117.333)
@@ -214,57 +192,41 @@ states/attack/position = Vector2(1031, 81)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ur7pv"), "Idle", "Running", SubResource("AnimationNodeStateMachineTransition_d2wvv"), "Dash", "Running", SubResource("AnimationNodeStateMachineTransition_3v2ag"), "Idle", "Dash", SubResource("AnimationNodeStateMachineTransition_f1ej7"), "Running", "Idle", SubResource("AnimationNodeStateMachineTransition_oprun"), "Dash", "Idle", SubResource("AnimationNodeStateMachineTransition_4r5pv"), "Walk", "Dash", SubResource("AnimationNodeStateMachineTransition_jej6c"), "Dash", "Walk", SubResource("AnimationNodeStateMachineTransition_a8ls1"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_qfm1y"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_fulsm"), "Walk", "Running", SubResource("AnimationNodeStateMachineTransition_60mlk"), "Running", "Walk", SubResource("AnimationNodeStateMachineTransition_i4ail"), "Idle", "attack", SubResource("AnimationNodeStateMachineTransition_5gtgg"), "attack", "Idle", SubResource("AnimationNodeStateMachineTransition_h17s1")]
 graph_offset = Vector2(363, -7.90909)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_fjrip"]
-height = 1.93799
-
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_mask = 14
 script = ExtResource("1_qlg0r")
+use_mouse_vector = null
+move_speed = null
+rotation_speed = null
+dash_speed = null
+dash_duration = null
+dash_cooldown = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.162869, 0)
 shape = SubResource("CapsuleShape3D_qlg0r")
 
 [node name="Model" parent="." instance=ExtResource("2_tuyoq")]
-[node name="Model" parent="." instance=ExtResource("2_tuyoq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.00436, 0)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../Model")
-root_node = NodePath("../Model")
 tree_root = SubResource("AnimationNodeStateMachine_i4ail")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Walk/blend_position = 0.482213
+parameters/Walk/blend_position = 0.599558
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Model")
 root_node = NodePath("../Model")
 libraries = {
 &"kayKit_adventurer": ExtResource("4_fjrip")
 }
 
-<<<<<<< Updated upstream:scenes/player.tscn
-[node name="WeaponHandler" type="Node3D" parent="."]
-
-[node name="AnimationTree" type="AnimationTree" parent="WeaponHandler"]
-
-[node name="Hitbox" type="Area3D" parent="WeaponHandler"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WeaponHandler/Hitbox"]
-
-[node name="VFX" type="Node3D" parent="WeaponHandler"]
-
-[node name="Hurtbox" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.188721, 0)
-shape = SubResource("CylinderShape3D_fjrip")
-=======
 [node name="Weapon" type="Node3D" parent="."]
 script = ExtResource("5_0owmy")
 weapon = ExtResource("6_qek5x")
->>>>>>> Stashed changes:scenes/player/player.tscn
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Weapon"]
 
 [node name="Movement" type="Node" parent="."]
 script = ExtResource("4_dqkch")

@@ -22,6 +22,9 @@ var command_queue: Array[Command] = []
 # Register command objects
 var attack_command: AttackCommand = AttackCommand.new()
 #var dash_command: Command = DashCommand.new()
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 ## Function: _input
@@ -55,6 +58,9 @@ func _input(event):
 	process_commands()
 	
 	
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 ## Function: update_dash_input
@@ -95,9 +101,12 @@ func is_dash_released() -> bool:
 	return dash_released
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 
 =======
+=======
+>>>>>>> Stashed changes
 ## Function: process_commands
 ## Purpose: Buffer attack/dash commands and append them to the command queue.
 ## Parameters: None.
@@ -143,19 +152,28 @@ func execute_commands(actor):
 ## Parameters:
 ##   action (String): The action to buffer.
 ## Returns: void.
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 func buffer_input(action: String):
 	"""Store an input action in the buffer with an expiration timestamp."""
 	input_buffer[action] = Time.get_ticks_msec() + int(buffer_time * 1000)
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 =======
+=======
+>>>>>>> Stashed changes
 ## Function: get_buffered_input
 ## Purpose: Retrieve a buffered action if still valid, then remove it.
 ## Parameters:
 ##   action (String): The action to check.
 ## Returns: bool.
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 func get_buffered_input(action: String) -> bool:
 	"""Return true if the action is still buffered and remove it from the buffer."""
@@ -166,25 +184,37 @@ func get_buffered_input(action: String) -> bool:
 	return false
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 =======
+=======
+>>>>>>> Stashed changes
 ## Function: clear_buffer
 ## Purpose: Clear all buffered input actions.
 ## Parameters: None.
 ## Returns: void.
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 func clear_buffer():
 	"""Clear all buffered inputs."""
 	input_buffer.clear()
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 =======
+=======
+>>>>>>> Stashed changes
 ## Function: switch_input_scheme
 ## Purpose: Change the current input scheme if the new scheme differs.
 ## Parameters:
 ##   new_scheme (INPUT_SCHEMES): The new input scheme.
 ## Returns: void.
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 func switch_input_scheme(new_scheme: INPUT_SCHEMES):
 	"""Switch to a new input scheme if it differs from the current one."""
@@ -229,14 +259,20 @@ func get_input_vector() -> Vector2:
 	return input_vector
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 # ✅ **Get Direction to Mouse Pointer (3D)**
 =======
+=======
+>>>>>>> Stashed changes
 ## Function: get_mouse_direction
 ## Purpose: Cast a ray from the mouse position and return the intersection point in world space.
 ## Parameters:
 ##   origin (Node3D): The origin node from which to cast the ray.
 ## Returns: Vector3.
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 func get_mouse_direction(origin: Node3D) -> Vector3:
 	return get_mouse_position(origin) - origin.global_transform.origin
