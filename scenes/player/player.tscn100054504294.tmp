@@ -228,7 +228,6 @@ speed = 15.0
 
 [node name="Dash" type="Node" parent="."]
 script = ExtResource("5_qlg0r")
-dodge_toward_mouse = false
 dash_speed = 50.0
 run_speed = 27.5
 dash_duration = 0.15
