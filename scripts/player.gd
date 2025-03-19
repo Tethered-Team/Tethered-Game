@@ -2,19 +2,15 @@ extends CharacterBody3D
 
 @onready var movement = $Movement
 @onready var dash = $Dash
-<<<<<<< Updated upstream:scripts/player.gd
-@onready var weapon_handler = $WeaponHandler
-=======
->>>>>>> Stashed changes:scenes/player/player.gd
 @onready var stats = $Stats
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var tree_root: AnimationNodeStateMachine = $AnimationTree.get("tree_root")
-@onready var attack_node: AnimationNodeAnimation = tree_root.get_node("attack")
+@onready var attack_node: AnimationNodeAnimation = tree_root.get_node("Attack")
 @onready var playback = animation_tree.get("parameters/playback")
 @onready var camera
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var weapon: Node3D = $Weapon
-@onready var weapon_component: WeaponComponent = $Weapon as WeaponComponent
+#@onready var weapon: Node3D = $Weapon
+@onready var weapon_component: WeaponComponent = $WeaponComponent as WeaponComponent
 @onready var model: Skeleton3D = $Model.get_child(0).get_node("Skeleton3D")
 @export var use_mouse_vector: bool = true
 

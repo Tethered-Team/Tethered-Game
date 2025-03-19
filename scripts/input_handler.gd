@@ -14,8 +14,6 @@ var dash_released: bool = false
 
 var aim_direction: Vector3 = Vector3.ZERO  # Aim direction (Mouse/Gamepad)
 var aim_angle: float = 0.0  # Right stick angle
-<<<<<<< Updated upstream
-=======
 # Command queue
 var command_queue: Array[Command] = []
 
@@ -47,9 +45,6 @@ func _input(event):
 	# **Update aiming direction**
 	update_aim_direction()
 	
-<<<<<<< Updated upstream
-	#print(input_buffer)
-=======
 	# Handle attack and dash inputs
 	process_commands()
 	

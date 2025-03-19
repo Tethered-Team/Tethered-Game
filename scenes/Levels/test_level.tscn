@@ -1,10 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://dfq2y3sot17aa"]
+[gd_scene load_steps=14 format=3 uid="uid://dfq2y3sot17aa"]
 
-[ext_resource type="PackedScene" uid="uid://leq1tlbs2pjb" path="res://scenes/enemy.tscn" id="1_gbhdq"]
-[ext_resource type="PackedScene" uid="uid://bqon2j8trw5g5" path="res://scenes/player.tscn" id="1_gojnm"]
+[ext_resource type="PackedScene" uid="uid://leq1tlbs2pjb" path="res://scenes/enemies/enemy.tscn" id="1_gbhdq"]
+[ext_resource type="PackedScene" uid="uid://bqon2j8trw5g5" path="res://scenes/player/player.tscn" id="1_gojnm"]
 [ext_resource type="PackedScene" uid="uid://cti74sdotxvc5" path="res://main_camera.tscn" id="2_wa5q0"]
-[ext_resource type="PackedScene" uid="uid://cepexqh0wcr2k" path="res://scenes/enemy_spawn_trigger.tscn" id="2_y646j"]
-[ext_resource type="PackedScene" uid="uid://dgr5vun318cfb" path="res://scenes/death_area.tscn" id="3_lnbra"]
+[ext_resource type="PackedScene" uid="uid://cepexqh0wcr2k" path="res://scenes/game elements/enemy_spawn_trigger.tscn" id="2_y646j"]
+[ext_resource type="PackedScene" uid="uid://dgr5vun318cfb" path="res://scenes/game elements/death_area.tscn" id="3_lnbra"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y646j"]
 size = Vector3(29.8527, 13.4263, 26.7051)
@@ -34,17 +34,11 @@ height = 10.0
 height = 10.0
 radius = 1.5
 
-[sub_resource type="BoxMesh" id="BoxMesh_wa5q0"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ka0q3"]
-
 [node name="Node3D" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_gojnm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01986, 0)
-move_speed = 20.0
-rotation_speed = 30.0
-dash_speed = 75.0
+move_speed = 15.0
+dash_speed = 100.0
 
 [node name="MainCamera" parent="." instance=ExtResource("2_wa5q0")]
 
@@ -401,38 +395,4 @@ radius = 2.65
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
-[node name="Walls" type="Node3D" parent="NavigationRegion3D"]
-
-[node name="Wall" type="StaticBody3D" parent="NavigationRegion3D/Walls"]
-transform = Transform3D(1, 0, 0, 0, 6.52919, 0, 0, 0, 66.1891, -25.153, 1.93764, 1.5638)
-collision_layer = 4
-collision_mask = 0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Walls/Wall"]
-mesh = SubResource("BoxMesh_wa5q0")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Walls/Wall"]
-shape = SubResource("BoxShape3D_ka0q3")
-
-[node name="Wall2" type="StaticBody3D" parent="NavigationRegion3D/Walls"]
-transform = Transform3D(-4.37114e-08, 0, 66.1891, 0, 6.52919, 0, -1, 0, -2.89322e-06, 7.69166, 2.04515, -31.1654)
-collision_layer = 4
-collision_mask = 0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Walls/Wall2"]
-mesh = SubResource("BoxMesh_wa5q0")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Walls/Wall2"]
-shape = SubResource("BoxShape3D_ka0q3")
-
-[node name="UI" type="CanvasLayer" parent="."]
-
-[node name="CheckButton" type="CheckButton" parent="UI"]
-offset_right = 44.0
-offset_bottom = 24.0
-focus_mode = 0
-text = " Use Mouse Direction"
-
 [connection signal="body_entered" from="Enemy Spawn Trigger" to="Enemy Spawn Trigger" method="_on_body_entered"]
-[connection signal="ready" from="UI/CheckButton" to="Player" method="_on_check_button_ready"]
-[connection signal="toggled" from="UI/CheckButton" to="Player" method="_on_check_button_toggled"]

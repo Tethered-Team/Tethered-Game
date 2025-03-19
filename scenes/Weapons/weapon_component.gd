@@ -160,7 +160,7 @@ func start_attack_animation(current_attack: AttackData) -> void:
 	parent.attack_node.animation = current_attack.animation_name
 	print("Attack Animation:", current_attack.animation_name)
 	# Change into the attack state.
-	parent.playback.travel("attack")
+	parent.playback.travel("Attack")
 	# Now play the animation (or seek to the desired offset).
 	animation_player.play(current_attack.animation_name)
 	animation_player.seek(current_attack.start_offset, true)
