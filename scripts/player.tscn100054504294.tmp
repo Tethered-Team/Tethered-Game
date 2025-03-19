@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:scenes/player/player.tscn
-[gd_scene load_steps=31 format=3 uid="uid://bqon2j8trw5g5"]
-========
 [gd_scene load_steps=34 format=3 uid="uid://bqon2j8trw5g5"]
->>>>>>>> nick:scripts/player.tscn100054504294.tmp
 
 [ext_resource type="Script" uid="uid://dgdkbwej74o2b" path="res://scenes/player/player.gd" id="1_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://c31loe8tv748i" path="res://assets/KayKit_Adventurers_1.0_FREE/Characters/gltf/Knight.tscn" id="2_tuyoq"]
@@ -190,17 +186,11 @@ states/Idle/position = Vector2(461, 155)
 states/Running/node = SubResource("AnimationNodeAnimation_fjrip")
 states/Running/position = Vector2(749.667, 372.333)
 states/Walk/node = SubResource("AnimationNodeBlendSpace1D_d2wvv")
-<<<<<<<< HEAD:scenes/player/player.tscn
-states/Walk/position = Vector2(646, -134.333)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ur7pv"), "Idle", "Running", SubResource("AnimationNodeStateMachineTransition_d2wvv"), "Dash", "Running", SubResource("AnimationNodeStateMachineTransition_3v2ag"), "Idle", "Dash", SubResource("AnimationNodeStateMachineTransition_f1ej7"), "Running", "Idle", SubResource("AnimationNodeStateMachineTransition_oprun"), "Dash", "Idle", SubResource("AnimationNodeStateMachineTransition_4r5pv"), "Walk", "Dash", SubResource("AnimationNodeStateMachineTransition_jej6c"), "Dash", "Walk", SubResource("AnimationNodeStateMachineTransition_a8ls1"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_qfm1y"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_fulsm"), "Walk", "Running", SubResource("AnimationNodeStateMachineTransition_60mlk"), "Running", "Walk", SubResource("AnimationNodeStateMachineTransition_i4ail")]
-graph_offset = Vector2(-118, -202)
-========
 states/Walk/position = Vector2(727, -117.333)
 states/attack/node = SubResource("AnimationNodeAnimation_qek5x")
 states/attack/position = Vector2(1031, 81)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ur7pv"), "Idle", "Running", SubResource("AnimationNodeStateMachineTransition_d2wvv"), "Dash", "Running", SubResource("AnimationNodeStateMachineTransition_3v2ag"), "Idle", "Dash", SubResource("AnimationNodeStateMachineTransition_f1ej7"), "Running", "Idle", SubResource("AnimationNodeStateMachineTransition_oprun"), "Dash", "Idle", SubResource("AnimationNodeStateMachineTransition_4r5pv"), "Walk", "Dash", SubResource("AnimationNodeStateMachineTransition_jej6c"), "Dash", "Walk", SubResource("AnimationNodeStateMachineTransition_a8ls1"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_qfm1y"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_fulsm"), "Walk", "Running", SubResource("AnimationNodeStateMachineTransition_60mlk"), "Running", "Walk", SubResource("AnimationNodeStateMachineTransition_i4ail"), "Idle", "attack", SubResource("AnimationNodeStateMachineTransition_5gtgg"), "attack", "Idle", SubResource("AnimationNodeStateMachineTransition_h17s1")]
 graph_offset = Vector2(363, -7.90909)
->>>>>>>> nick:scripts/player.tscn100054504294.tmp
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_mask = 14
@@ -226,17 +216,11 @@ libraries = {
 &"kayKit_adventurer": ExtResource("4_fjrip")
 }
 
-<<<<<<<< HEAD:scenes/player/player.tscn
-[node name="WeaponComponent" type="Node3D" parent="."]
-script = ExtResource("5_0owmy")
-weapon = ExtResource("6_qek5x")
-========
 [node name="Weapon" type="Node3D" parent="."]
 script = ExtResource("5_0owmy")
 weapon = ExtResource("6_qek5x")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Weapon"]
->>>>>>>> nick:scripts/player.tscn100054504294.tmp
 
 [node name="Movement" type="Node" parent="."]
 script = ExtResource("4_dqkch")
