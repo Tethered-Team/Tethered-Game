@@ -37,8 +37,6 @@ radius = 1.5
 [node name="Node3D" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_gojnm")]
-move_speed = 15.0
-dash_speed = 100.0
 
 [node name="MainCamera" parent="." instance=ExtResource("2_wa5q0")]
 

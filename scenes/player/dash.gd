@@ -20,8 +20,7 @@ var dash_between_timer: float = 0.0
 var dash_count: int = dash_max
 var dash_vector: Vector3
 
-func handle_dash(character: CharacterBody3D, delta: float, direction: Vector3):
-	
+func handle_dash(character: CharacterBody3D, delta: float):
 	# If already in dash state, update its timer/velocity.
 	if is_dashing:
 		continue_dash(character, delta)
@@ -37,12 +36,12 @@ func handle_dash(character: CharacterBody3D, delta: float, direction: Vector3):
 			
 	# If already in running state, delegate handling to continue_running.
 	elif is_running:
-		continue_running(character, direction)
+		continue_running(character)
 			
 	# If not in any dash state, check to start a dash.
 	else:
 		if InputHandler.is_dash_pressed() and character.is_on_floor() and dash_count > 0 and dash_between_timer <= 0:
-			start_dash(character, direction)
+			start_dash(character)
 			
 	# Update cooldown if neither dashing nor running.
 	dash_cooldown_timer = clampf(dash_cooldown_timer - delta, 0, dash_cooldown)
@@ -51,9 +50,9 @@ func handle_dash(character: CharacterBody3D, delta: float, direction: Vector3):
 	if dash_cooldown_timer == 0:
 		dash_count = dash_max
 		
-	#print("Dash pressed: ", InputHandler.is_dash_pressed(), " Dashing: ", is_dashing, " Running: ", is_running)
+	print("Dash pressed: ", InputHandler.is_dash_pressed(), " Dashing: ", is_dashing, " Running: ", is_running)
 
-func start_dash(character: CharacterBody3D, direction: Vector3):
+func start_dash(character: CharacterBody3D):
 	is_dashing = true
 	is_running = false
 	dash_timer = dash_duration
@@ -65,14 +64,11 @@ func start_dash(character: CharacterBody3D, direction: Vector3):
 	character.set_collision_mask_value(3, true)   # Keep colliding with Layer 3 (Dash Blocking)
 	character.set_collision_mask_value(4, true)   # Keep colliding with Ground (Layer 4)
 
-	character.look_at(character.global_position - Vector3(direction.x, 0, direction.z), Vector3.UP)
-
-	print("dash direction: ", direction)
-	if direction.length() > 0.01:
-		character.look_at(character.global_position - Vector3(direction.x, 0, direction.z), Vector3.UP)
-
 	# Set dash direction.
-	character.velocity = character.global_transform.basis.z.normalized() * dash_speed
+	if dodge_toward_mouse and InputHandler.current_input_scheme == InputHandler.INPUT_SCHEMES.KBM:
+		character.velocity = character.global_position.direction_to(InputHandler.get_mouse_direction(character)) * dash_speed
+	else:
+		character.velocity = character.global_transform.basis.z.normalized() * dash_speed
 
 	dash_vector = character.velocity
 	print("Start Dash")
@@ -85,12 +81,11 @@ func continue_dash(character: CharacterBody3D, delta: float):
 		dash_timer = clampf(dash_timer - delta, 0, dash_duration)
 		#print("Continuing dash, timer: ", dash_timer)
 
-func continue_running(character: CharacterBody3D, direction: Vector3):
+func continue_running(character: CharacterBody3D):
 	# Check if dash button is still held; otherwise, end running.
 	if not InputHandler.is_dash_held():
 		end_dash(character)
 	else:
-		character.look_at(character.global_position - Vector3(direction.x, 0, direction.z), Vector3.UP)
 		# Continue running using the same dash direction.
 		character.velocity = character.velocity.normalized() * run_speed
 
@@ -116,34 +111,3 @@ func end_dash(character: CharacterBody3D):
 	character.set_collision_mask_value(3, true)  # Keep Layer 3 (Dash Blocking) active
 	character.set_collision_mask_value(4, true)  # Keep Ground (Layer 4) active
 	print("End Dash")
-
-
-## Function: handle_lunge
-## Purpose: Handle a lunge for attack
-## Parameters:
-##   character (CharacterBody3D): The character to lunge.
-##   delta (float): The time delta for the current frame.
-##   direction (Vector3): The direction in which to lunge.
-##   lunge_distance (float): The distance to lunge.
-##   lunge_speed (float): The speed at which to lunge.
-## Returns: void.
-#
-func handle_lunge(character: CharacterBody3D, direction: Vector3, lunge_distance: float, lunge_speed: float):
-	# Calculate the lunge vector.
-	var lunge_vector = direction.normalized() * lunge_speed
-	# Calculate the lunge end position.
-	var lunge_end = character.global_transform.origin + lunge_vector
-	# Calculate the lunge end distance.
-	var lunge_end_distance = character.global_transform.origin.distance_to(lunge_end)
-	
-	# If the lunge end distance is less than the lunge distance, continue the lunge.
-	if lunge_end_distance < lunge_distance:
-		character.velocity = lunge_vector
-		# Optionally keep Y velocity zero during lunge.
-		character.velocity.y = 0
-		#print("Continuing lunge, distance: ", lunge_end_distance)
-	else:
-		# Otherwise, end the lunge.
-		character.velocity = Vector3.ZERO
-		#print("End lunge")
-		return	
