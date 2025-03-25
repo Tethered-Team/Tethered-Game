@@ -26,7 +26,7 @@ func _on_body_entered(body):
 				enemies_by_group()
 		
 		has_been_triggered = true
-		
+		self.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 		
 func enemies_by_list():
 	# ✅ Spawn manually assigned enemies

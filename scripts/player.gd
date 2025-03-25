@@ -10,7 +10,7 @@ extends CharacterBody3D
 @onready var camera
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 #@onready var weapon: Node3D = $Weapon
-@onready var weapon_component: WeaponComponent = $WeaponComponent as WeaponComponent
+@onready var weapon_component = $WeaponComponent as WeaponComponent
 @onready var model: Skeleton3D = $Model.get_child(0).get_node("Skeleton3D")
 @export var use_mouse_vector: bool = true
 

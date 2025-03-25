@@ -112,6 +112,7 @@ joystick_right={
 3d_physics/layer_4="Ground"
 3d_physics/layer_5="Other"
 3d_physics/layer_6="Damage Area"
+3d_physics/layer_7="Enemy"
 
 [rendering]
 

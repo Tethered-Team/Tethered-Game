@@ -23,7 +23,11 @@ var final_lunge_speed: float = 0.0                   # Calculated speed, = dista
 
 func apply_smooth_rotation(character: CharacterBody3D, move_vector: Vector3, delta: float, rot_speed: float = rotation_speed):
 	if move_vector.length() > 0.01 or character.is_dashing:
-		var target_direction = move_vector.normalized()
+		# Flatten the move_vector so that y is zero.
+		var flat_move = Vector3(move_vector.x, 0, move_vector.z)
+		if flat_move.length() == 0:
+			return
+		var target_direction = flat_move.normalized()
 		var target_basis = Basis.looking_at(-target_direction, Vector3.UP)
 		character.global_transform.basis = character.global_transform.basis.slerp(target_basis, delta * rot_speed)
 
@@ -31,18 +35,59 @@ func apply_rotation(character: CharacterBody3D, move_vector: Vector3):
 	if move_vector.length() > 0.01 or character.is_dashing:
 		character.look_at(character.global_position - Vector3(move_vector.x, 0, move_vector.z), Vector3.UP)
 
-func apply_movement(character: CharacterBody3D, move_vector: Vector3, delta: float, is_grounded: bool):
-	if is_grounded:
+# Common function to apply gravity and force the character to remain upright
+func apply_common_movement(character: CharacterBody3D, delta: float, base_velocity: Vector3) -> void:
+	# Gravity handling.
+	if character.is_on_floor():
 		gravity_current = 0
 	else:
 		gravity_current -= gravity * delta
-	if move_vector.length() > 0.01:
-		character.velocity.x = move_vector.x * speed
-		character.velocity.z = move_vector.z * speed
+	base_velocity.y = gravity_current
+	
+	# Apply the velocity.
+	character.velocity = base_velocity
+	
+	# Force the character to remain upright.
+	var current_transform = character.global_transform
+	var current_euler = current_transform.basis.get_euler()
+	current_euler.x = 0
+	current_euler.z = 0
+	current_transform.basis = Basis.from_euler(current_euler)
+	character.global_transform = current_transform
+
+# For the player: direct movement based on input.
+func apply_player_movement(character: CharacterBody3D, input_vector: Vector3, delta: float, move_speed: float = speed) -> void:
+	# Assume input_vector is already normalized and represents intended movement direction.
+	var move_velocity = Vector3.ZERO
+	if input_vector.length() > 0.01:
+		move_velocity.x = input_vector.x * move_speed
+		move_velocity.z = input_vector.z * move_speed
+	# Call the common function to add gravity and enforce upright orientation.
+	apply_common_movement(character, delta, move_velocity)
+
+# For AI/enemy: movement based on AI target plus separation force.
+func apply_ai_movement(character: CharacterBody3D, target_direction: Vector3, delta: float, separation_distance: float, minimum_speed: float, move_speed: float) -> void:
+	var desired_velocity = Vector3.ZERO
+	var neighbors = get_tree().get_nodes_in_group("Enemies")
+
+	if target_direction.length() > 0.1:
+		desired_velocity.x = target_direction.x * move_speed
+		desired_velocity.z = target_direction.z * move_speed
 	else:
-		character.velocity.x = 0
-		character.velocity.z = 0
-	character.velocity.y = gravity_current
+		desired_velocity.x = 0
+		desired_velocity.z = 0
+	desired_velocity.y = gravity_current
+	
+	# Add separation force to avoid crowding.
+	var separation_force = get_separation_force(character, neighbors, separation_distance)
+	var final_velocity = desired_velocity + separation_force
+
+	# If the final velocity is too small (i.e. forces cancel each other out), stop moving.
+
+	if final_velocity.length() < minimum_speed:
+		final_velocity = Vector3.ZERO
+	
+	apply_common_movement(character, delta, final_velocity)
 
 #-----------------------------
 # Lunge Functions
@@ -111,3 +156,31 @@ func end_lunge(character: CharacterBody3D) -> void:
 	is_lunging = false
 	character.velocity = Vector3.ZERO
 	#print("Lunge ended")
+## Function: get_separation_force
+## Purpose: Compute a separation force to avoid crowding with nearby characters.
+## Algorithm: For each nearby character, compute a repulsive force inversely proportional to the distance.
+##            Average the forces and scale by the desired separation distance.
+## Parameters:
+##   character (CharacterBody3D): The character to compute separation for.
+##   neighbors (Array[Node]): An array of nearby characters to avoid.
+##   desired_separation (float): The desired separation distance.
+## Returns: Vector3.
+func get_separation_force(character: CharacterBody3D, neighbors: Array[Node], desired_separation: float) -> Vector3:
+	var force = Vector3.ZERO
+	var count = 0
+	# Loop through each neighbor to compute a repulsive force.
+	for neighbor in neighbors:
+		# Compute difference vector from neighbor to the current character.
+		var diff = character.global_transform.origin - neighbor.global_transform.origin
+		diff.y = 0  # Ignore vertical differences; consider horizontal separation only.
+		var distance = diff.length()
+		# If the neighbor is too close and not the same position:
+		if distance < desired_separation and distance > 0:
+			# Add a force inversely proportional to the distance (closer means more push).
+			force += diff.normalized() / distance
+			count += 1
+	# If any neighbors contributed, average the forces.
+	if count > 0:
+		force /= count
+	# Scale the averaged force by the desired separation to adjust overall strength.
+	return force * desired_separation

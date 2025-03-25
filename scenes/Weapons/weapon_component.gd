@@ -9,13 +9,17 @@ class_name WeaponComponent
 
 var current_combo: Array[AttackData] = []
 var current_attack_type: String = "light"
+var current_attack: AttackData = null
+
 var combo_step: int = 0
 var can_attack: bool = true
 var combo_timer: Timer
 @export var combo_timer_duration: float = 0.5
 var attack_timer: Timer
 var weapon_instance: Node3D = null
+var hitbox: Area3D = null
 var is_attacking: bool = false
+
 
 ## Function: _ready
 ## Purpose: Initialize the weapon component, set up the combo timer, and attach the weapon model.
@@ -51,8 +55,6 @@ func attack(attack_type: String):
 		"special": current_combo = weapon.special_combo
 		_: return  # Invalid attack type
 
-	var current_attack: AttackData = null
-
 	if current_combo.size() != 0:
 		current_attack_type = attack_type
 
@@ -70,7 +72,7 @@ func attack(attack_type: String):
 	# call_deferred("start_attack_animation", current_attack)
 
 	# Then start the new attack animation.
-	start_attack_animation(current_attack)
+	start_attack_animation()
 		
 	can_attack = false  # Prevent new attacks until window expires
 	
@@ -105,6 +107,12 @@ func attach_weapon():
 		bone_attachment.add_child(weapon_instance)
 		player_skeleton.add_child(bone_attachment)
 		
+		# Connect the hitbox signal if a hitbox exists.
+		hitbox = weapon_instance.get_node("HitBox")
+		if hitbox:
+			hitbox.connect("body_entered", Callable(self, "_on_hitbox_body_entered"))
+			hitbox.monitoring = false
+		
 ## Function: remove_weapon
 ## Purpose: Remove the attached weapon model from the player's skeleton.
 ## Parameters: None.
@@ -124,6 +132,10 @@ func _on_attack_window_timeout() -> void:
 	# End the current attack state so that a new attack can be accepted.
 	is_attacking = false
 	can_attack = true
+
+	#Disable the hitbox for the attack.
+	hitbox.monitoring = false
+
 	# Optionally, you might auto-increment the combo here,
 	# but only if you want that behavior when no input is buffered.
 	# Leaving it out gives you full control—increment on a new attack command.
@@ -155,7 +167,7 @@ func start_attack_timer(duration: float) -> void:
 ## Parameters:
 ##   current_attack (AttackData): The data for the current attack.
 ## Returns: void.
-func start_attack_animation(current_attack: AttackData) -> void:
+func start_attack_animation() -> void:
 	# Set the new attack animation name on the attack_node.
 	parent.attack_node.animation = current_attack.animation_name
 	print("Attack Animation:", current_attack.animation_name)
@@ -164,7 +176,11 @@ func start_attack_animation(current_attack: AttackData) -> void:
 	# Now play the animation (or seek to the desired offset).
 	animation_player.play(current_attack.animation_name)
 	animation_player.seek(current_attack.start_offset, true)
-	
+
+	#Enable the hitbox for the attack.
+	hitbox.monitoring = true
+
+
 	# (Optional) Print out length for debugging.
 	var attack_length = animation_player.get_animation(current_attack.animation_name).length
 	print("Attack Animation Length:", attack_length)
@@ -172,3 +188,31 @@ func start_attack_animation(current_attack: AttackData) -> void:
 	combo_timer.stop()
 	combo_timer.wait_time = attack_length + combo_timer_duration
 	combo_timer.start()
+
+## Function: _on_hitbox_body_entered
+## Purpose: Handle the event when a body enters the hitbox.
+## Parameters:
+##   body (Node): The body that entered the hitbox.
+## Returns: void.
+func _on_hitbox_body_entered(body: Node) -> void:
+
+	if is_attacking:
+		# Check if the collided body is an enemy and process the hit.
+		if body.is_in_group("Enemies"):
+			print("Hit enemy:", body.name)
+			# Add your attack logic here (e.g., applying damage).
+			body.apply_damage(calulate_damage())
+			
+			# Apply any special effects.
+
+			
+
+## Function: calulate_damage
+## Purpose: Calculate the damage for the current attack based on the weapon's modified damage.
+## Parameters: None.
+## Returns: float.
+func calulate_damage() -> float:
+	"""Calculate the damage for the current attack based on the weapon's modified damage."""
+	return current_attack.damage
+
+	
