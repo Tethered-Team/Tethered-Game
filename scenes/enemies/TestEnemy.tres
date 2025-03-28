@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemySpawnData" load_steps=3 format=3 uid="uid://cgna0ecjc78ni"]
+
+[ext_resource type="Script" uid="uid://dndxuu21a5mo1" path="res://scripts/enemies/EnemySpawnData.gd" id="1_8n72p"]
+[ext_resource type="PackedScene" uid="uid://cjlawtbjulqy8" path="res://scenes/enemies/TestEnemy.tscn" id="1_sjvua"]
+
+[resource]
+script = ExtResource("1_8n72p")
+scene = ExtResource("1_sjvua")
+weight = 1
+spawn_radius = 2.5
+can_summon = false
+tags = Array[String]([])
+metadata/_custom_type_script = "uid://dndxuu21a5mo1"

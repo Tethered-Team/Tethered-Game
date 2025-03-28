@@ -3,6 +3,9 @@ class_name AttackCommand
 
 var attack_type: String = "light"  # or "heavy", set this when creating the command
 
-func execute(actor):
-    # Assumes actor has a weapon_component property.
-    actor.weapon_component.attack(attack_type)
+func execute(actor: Node3D) -> void:
+	var player = actor as Player
+	if player:
+		player.weapon_component.attack(attack_type)
+	else:
+		push_warning("Actor does not have a weapon_component.")

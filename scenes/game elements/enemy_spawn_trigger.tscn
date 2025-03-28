@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cepexqh0wcr2k"]
 
-[ext_resource type="Script" uid="uid://b3427a61sbwdd" path="res://scenes/game elements/enemy_spawn_trigger.gd" id="1_hpaly"]
+[ext_resource type="Script" uid="uid://b3427a61sbwdd" path="res://scripts/enemy_spawn_trigger.gd" id="1_hpaly"]
 
 [node name="Enemy Spawn Trigger" type="Area3D"]
 collision_layer = 0

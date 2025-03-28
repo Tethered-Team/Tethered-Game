@@ -13,6 +13,7 @@ var current_attack: AttackData = null
 
 var combo_step: int = 0
 var can_attack: bool = true
+var can_move: bool = true
 var combo_timer: Timer
 @export var combo_timer_duration: float = 0.5
 var attack_timer: Timer
@@ -25,7 +26,7 @@ var is_attacking: bool = false
 ## Purpose: Initialize the weapon component, set up the combo timer, and attach the weapon model.
 ## Parameters: None.
 ## Returns: void.
-func _ready():
+func _ready() -> void:
 	"""Initialize the combo timer and attach the weapon model to the player's skeleton."""
 	combo_timer = Timer.new()
 	combo_timer.one_shot = true
@@ -36,17 +37,25 @@ func _ready():
 	# Load and attach the weapon model
 	attach_weapon()
 
+	# Create a persistent timer for the attack window.
+	attack_timer = Timer.new()
+	attack_timer.one_shot = true
+	add_child(attack_timer)
+	attack_timer.timeout.connect(Callable(self, "_on_attack_window_timeout"))
+
 ## Function: attack
 ## Purpose: Trigger an attack by selecting the appropriate combo and playing the associated animation; start timers.
 ## Parameters:
 ##   attack_type (String): The type of attack to trigger.
 ## Returns: void.
-func attack(attack_type: String):
+func attack(attack_type: String) -> void:
 	print("attack command")
 	if not can_attack or not weapon:
 		return
 
 	is_attacking = true  # Mark attack start
+	can_attack = false    # Lock further combo unless reset by the combo timer.
+	can_move = false      # Disable movement during the attack animation.
 
 	# Choose the proper combo based on attack_type.
 	match attack_type:
@@ -81,27 +90,38 @@ func attack(attack_type: String):
 	# Start the attack window timer.
 	start_attack_timer(current_attack.start_attack_window_offset)
 	
-	parent.get_closest_enemy(current_attack.lunge_distance, current_attack.aim_assist_angle)
+
+
+	# Optionally, also start a movement timer to re-enable movement earlier or when the attack animation ends.
+	can_move = false
+	# When attack starts, only connect if not already connected:
+	if not animation_player.is_connected("animation_finished", Callable(self, "_on_movement_timer_timeout")):
+		animation_player.connect("animation_finished", Callable(self, "_on_movement_timer_timeout"), CONNECT_ONE_SHOT)
+
 
 ## Function: _reset_combo
 ## Purpose: Reset the combo step when the combo timer expires.
 ## Parameters: None.
 ## Returns: void.
-func _reset_combo():
+func _reset_combo() -> void:
 	"""Reset combo step to 0 when the combo timer expires."""
 	combo_step = 0  # Reset combo if no input received in time
 	print("Combo Reset!", combo_step)
+	# When no follow-up input is received in time,
+	# you can leave can_attack as true (allowing the next attack) or false
+	# depending on your design.
+	can_attack = true
 
 ## Function: attach_weapon
 ## Purpose: Attach the weapon model to the designated bone on the player's skeleton.
 ## Parameters: None.
 ## Returns: void.
-func attach_weapon():
+func attach_weapon() -> void:
 	"""Attach the weapon model to the specified bone on the player's skeleton."""
 	if weapon.weapon_model and not weapon_instance:
 		weapon_instance = weapon.weapon_model.instantiate()
 		# Create a BoneAttachment3D to attach to the player's skeleton.
-		var bone_attachment = BoneAttachment3D.new()
+		var bone_attachment: BoneAttachment3D = BoneAttachment3D.new()
 		bone_attachment.bone_name = weapon.attachment_bone  # Use the specified attachment bone.
 		bone_attachment.transform = weapon.attachment_transform  # Set proper orientation / offset.
 		bone_attachment.add_child(weapon_instance)
@@ -117,7 +137,7 @@ func attach_weapon():
 ## Purpose: Remove the attached weapon model from the player's skeleton.
 ## Parameters: None.
 ## Returns: void.
-func remove_weapon():
+func remove_weapon() -> void:
 	"""Remove the attached weapon model from the player's skeleton."""
 	if weapon_instance:
 		weapon_instance.queue_free()
@@ -146,20 +166,11 @@ func _on_attack_window_timeout() -> void:
 ##   duration (float): The duration (in seconds) for the attack timer.
 ## Returns: void.
 func start_attack_timer(duration: float) -> void:
-	"""Start (or reset) a timer with the given duration to govern the attack window."""
-	# If the timer doesn't exist, create one.
-	if attack_timer == null:
-		attack_timer = Timer.new()
-		attack_timer.one_shot = true
-		add_child(attack_timer)
-	else:
-		# Stop the timer and disconnect previous connections.
-		attack_timer.stop()
-		attack_timer.timeout.disconnect(_on_attack_window_timeout)
-		
-	# Set the duration and connect the timeout signal.
+	"""Start a new one-shot timer for the attack window."""
 	attack_timer.wait_time = duration
-	attack_timer.timeout.connect(_on_attack_window_timeout)
+	# If it’s running, stop it first
+	if attack_timer.is_stopped() == false:
+		attack_timer.stop()
 	attack_timer.start()
 
 ## Function: start_attack_animation
@@ -173,16 +184,18 @@ func start_attack_animation() -> void:
 	print("Attack Animation:", current_attack.animation_name)
 	# Change into the attack state.
 	parent.playback.travel("Attack")
-	# Now play the animation (or seek to the desired offset).
-	animation_player.play(current_attack.animation_name)
-	animation_player.seek(current_attack.start_offset, true)
+	
+	# Configure and play the animation with no blend time so it starts smoothly.
+	animation_player.speed_scale = current_attack.attack_speed_multiplier
+	var start_offset: float = (current_attack.start_offset_percent * animation_player.get_animation(current_attack.animation_name).length)
+	
+	animation_player.play(current_attack.animation_name, 0.0, current_attack.attack_speed_multiplier, start_offset)
 
-	#Enable the hitbox for the attack.
+	# Enable the hitbox for the attack.
 	hitbox.monitoring = true
 
-
-	# (Optional) Print out length for debugging.
-	var attack_length = animation_player.get_animation(current_attack.animation_name).length
+	# (Optional) print out length for debugging.
+	var attack_length: float = animation_player.get_animation(current_attack.animation_name).length
 	print("Attack Animation Length:", attack_length)
 
 	combo_timer.stop()
@@ -213,6 +226,8 @@ func _on_hitbox_body_entered(body: Node) -> void:
 ## Returns: float.
 func calulate_damage() -> float:
 	"""Calculate the damage for the current attack based on the weapon's modified damage."""
-	return current_attack.damage
+	return weapon.base_damage + current_attack.per_attack_damage_modifier
 
-	
+# Called, for example, when the attack animation (or movement lock period) is over.
+func _on_movement_timer_timeout(_anim_name: String) -> void:
+	can_move = true

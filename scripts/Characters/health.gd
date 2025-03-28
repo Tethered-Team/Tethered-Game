@@ -15,7 +15,7 @@ func _ready():
 	"""Initialize the health component."""
 	parent = get_parent()
 
-	reset_health()
+	reset()
 
 ## Function: take_damage
 ## Purpose: Apply damage to the character's health.
@@ -37,7 +37,7 @@ func heal(amount: float) -> void:
 	"""Heal the character by the specified amount."""
 	current_health = min(current_health + amount, max_health)
 
-func reset_health() -> void:
+func reset() -> void:
 	current_health = max_health
 
 func die():

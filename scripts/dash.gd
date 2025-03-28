@@ -60,20 +60,22 @@ func start_dash(character: CharacterBody3D, direction: Vector3):
 	dash_cooldown_timer = dash_cooldown
 	dash_count -= 1
 	
-	# Ignore "Dash Passable" obstacles but keep colliding with others.
-	character.set_collision_mask_value(2, false)  # Ignore Layer 2 (Dash Passable)
-	character.set_collision_mask_value(3, true)   # Keep colliding with Layer 3 (Dash Blocking)
-	character.set_collision_mask_value(4, true)   # Keep colliding with Ground (Layer 4)
-
-	character.look_at(character.global_position - Vector3(direction.x, 0, direction.z), Vector3.UP)
-
-	print("dash direction: ", direction)
+	# Ignore "Dash Passable" obstacles
+	character.set_collision_mask_value(2, false)
+	character.set_collision_mask_value(3, true)
+	character.set_collision_mask_value(4, true)
+	
+	# Only call look_at if direction is valid (non-zero)
 	if direction.length() > 0.01:
-		character.look_at(character.global_position - Vector3(direction.x, 0, direction.z), Vector3.UP)
-
+		var target = character.global_position - Vector3(direction.x, 0, direction.z)
+		# Double-check that target isn't equal to global_position.
+		if not character.global_position.is_equal_approx(target):
+			character.look_at(target, Vector3.UP)
+	
+	print("dash direction: ", direction)
+	
 	# Set dash direction.
 	character.velocity = character.global_transform.basis.z.normalized() * dash_speed
-
 	dash_vector = character.velocity
 	print("Start Dash")
 
@@ -90,7 +92,11 @@ func continue_running(character: CharacterBody3D, direction: Vector3):
 	if not InputHandler.is_dash_held():
 		end_dash(character)
 	else:
-		character.look_at(character.global_position - Vector3(direction.x, 0, direction.z), Vector3.UP)
+		# Only rotate if direction is non-zero.
+		if direction.length() > 0.01:
+			var target = character.global_position - Vector3(direction.x, 0, direction.z)
+			if not character.global_position.is_equal_approx(target):
+				character.look_at(target, Vector3.UP)
 		# Continue running using the same dash direction.
 		character.velocity = character.velocity.normalized() * run_speed
 
@@ -146,4 +152,4 @@ func handle_lunge(character: CharacterBody3D, direction: Vector3, lunge_distance
 		# Otherwise, end the lunge.
 		character.velocity = Vector3.ZERO
 		#print("End lunge")
-		return	
+		return

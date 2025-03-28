@@ -27,6 +27,8 @@ var current_offset: Vector2 = Vector2.ZERO
 var reset_timer: float = 0.0
 
 func _ready():
+
+
 	# Initialize target node.
 	if target:
 		_target_node = get_node(target)
@@ -37,6 +39,9 @@ func _ready():
 	_camera = $Camera3D
 	if _camera == null:
 		push_warning("No Camera3D child found.")
+
+	GlobalReferences.set_camera(_camera)
+	InputHandler.set_camera(_camera)
 	
 	# Get InputHandler from root.
 	if has_node("/root/InputHandler"):
@@ -70,6 +75,12 @@ func get_spherical_offset() -> Vector3:
 
 # Update accumulated offset based on the movement vector.
 func update_current_offset(delta: float) -> void:
+	# Only update the camera offset if the player is not attacking.
+	# Assuming _target_node (the player) has an "can_move" boolean property.
+	if _target_node.has_method("can_move") and _target_node.can_move:
+		current_offset = Vector2.ZERO
+		return
+	
 	var movement_vector = _input_handler.get_input_vector()
 	
 	if movement_vector.length() > 0:
@@ -79,32 +90,31 @@ func update_current_offset(delta: float) -> void:
 		# Compute the desired target offsets based on input.
 		var target_offset = Vector2(movement_vector.x * limit_horizontal, -movement_vector.y * limit_vertical)
 		
-		 # Calculate the angle difference between current offset and input direction
-		var current_angle = 0
-		var target_angle = 0
+		# Calculate the angle difference between current offset and input direction.
+		var current_angle = 0.0
+		var target_angle = 0.0
 		
 		if current_offset.length() > 0.01:
 			current_angle = current_offset.angle()
-		
+			
 		if target_offset.length() > 0.01:
 			target_angle = target_offset.angle()
-		
+			
 		var angle_diff = abs(wrapf(target_angle - current_angle, -PI, PI))
 		
-		# Calculate adaptive smoothing - faster when direction differs more
-		var adaptive_smooth = smooth_speed/8
+		# Calculate adaptive smoothing - faster when direction differs more.
+		var adaptive_smooth = smooth_speed / 8.0
 		if angle_diff > 0.1:
-			# Scale smoothing speed based on angle difference (0 to PI)
 			adaptive_smooth = opposite_lerp_multiplier * angle_diff / PI
 		
-		# Apply adaptive smoothing
+		# Apply adaptive smoothing.
 		current_offset = current_offset.lerp(target_offset, adaptive_smooth * delta)
 		
 		# Clamp the accumulated offset.
 		current_offset.x = clamp(current_offset.x, -limit_horizontal, limit_horizontal)
 		current_offset.y = clamp(current_offset.y, -limit_vertical, limit_vertical)
 	else:
-		# Increase the pause timer; only start resetting after delay.
+		# Increase the pause timer; only start resetting after the delay.
 		reset_timer += delta
 		if reset_timer > reset_pause_delay:
 			current_offset = current_offset.lerp(Vector2.ZERO, reset_speed * delta)

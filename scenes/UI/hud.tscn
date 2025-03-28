@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlitgjstw42jw"]
+
+[ext_resource type="Script" uid="uid://2ejl0jmj008f" path="res://scenes/hud.gd" id="1_c4vmg"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_c4vmg")
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(720, 480)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 551.0
+offset_bottom = 393.0
+
+[node name="DebugCurrentControlSetText" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 32.0
+offset_right = 400.0
+offset_bottom = 64.0
+text = "CONTROL SCHEME DEFAULT"
+
+[node name="DebugCurrentControlSetLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 32.0
+offset_right = 168.0
+offset_bottom = 64.0
+text = "Current Control:"

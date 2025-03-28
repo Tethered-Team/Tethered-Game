@@ -184,3 +184,16 @@ func get_separation_force(character: CharacterBody3D, neighbors: Array[Node], de
 		force /= count
 	# Scale the averaged force by the desired separation to adjust overall strength.
 	return force * desired_separation
+
+
+## Function: reset
+## Purpose: Reset the character's state and position.
+## Parameters: None.
+## Returns: void.
+func reset(character: CharacterBody3D) -> void:
+	# Reset the character's state.
+	is_lunging = false
+	gravity_current = 0.0
+	character.velocity = Vector3.ZERO
+	character.global_transform.origin = Vector3.ZERO
+	character.global_transform.basis = Basis.IDENTITY

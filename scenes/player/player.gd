@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Player
 
 @onready var movement = $Movement
 @onready var dash = $Dash
@@ -18,16 +19,20 @@ extends CharacterBody3D
 var input_vector:Vector2 = Vector2.ZERO
 var move_vector: Vector3 = Vector3.ZERO
 var to_mouse_vector: Vector3 = Vector3.ZERO
-var last_move_vector: Vector3 = Vector3.ZERO  # New variable to store the last non-zero move vector
 var dash_vector: Vector3 = Vector3.ZERO
+
 var attack_vector: Vector3 = Vector3.ZERO
-var near_enemy: Node3D = null
-var closest_enemy: Node3D = null
-var distance_to_enemy: float = 0.0
+var exact_target: Node3D = null
+var cone_target: Node3D = null
+var closest_target: Node3D = null
+var attack_target: Node3D = null  # Used as the final target for attack direction
+
+
 var is_grounded: bool
 var is_dashing: bool
 var is_running: bool
 var lungeTriggered: bool = false
+
 
 
 #region Movement and Dash Exports
@@ -86,9 +91,15 @@ var _dash_cooldown: float = 0.5
 
 
 func _ready() -> void:
+
+	GlobalReferences.player = self
+
 	"""Initialize the player, resolve required nodes, and set initial movement values."""
 	print(movement)
-	camera = get_viewport().get_camera_3d()
+	
+	camera = GlobalReferences.main_camera
+	if camera == null:
+		camera = get_viewport().get_camera_3d()
 
 
 	# Set initial values for movement and dash.
@@ -99,19 +110,24 @@ func _physics_process(delta):
 
 	InputHandler.execute_commands(self)
 	
+	update_attack_direction()
 
 
 	if weapon_component.is_attacking:
-		movement.apply_rotation(self, attack_vector)
+
 		# Only trigger the lunge values once per attack.
 		if not lungeTriggered:
+			movement.apply_rotation(self, attack_vector)
 			lungeTriggered = true
 			# Start the lunge with custom parameters.
-			if near_enemy:
-				movement.handle_lunge(self, delta, (global_position.distance_to(near_enemy.global_transform.origin) * .8), 0.1)
-			else:
-				# Continue the active lunge without re-applying custom parameters.
-				movement.handle_lunge(self, delta, 2.0, 0.1)
+			var lunge_distance = weapon_component.current_attack.lunge_distance
+			if attack_target:
+				var enemy_distance = global_transform.origin.distance_to(attack_target.global_transform.origin) - 0.5
+				if enemy_distance < lunge_distance:
+					lunge_distance = enemy_distance
+
+			movement.handle_lunge(self, delta, lunge_distance, 0.1)
+
 		else:
 			# Continue the active lunge without re-applying custom parameters.
 			movement.handle_lunge(self, delta)
@@ -136,7 +152,7 @@ func player_dash(delta: float) -> void:
 
 func handle_normal_movement(delta: float) -> void:
 	movement.apply_smooth_rotation(self, move_vector, delta)
-	movement.apply_player_movement(self, move_vector, delta, move_speed)
+	movement.apply_player_movement(self, move_vector, delta)
 
 ## Function: set_initial_values [br]
 ## Purpose: Apply initial speed and duration values to the movement and dash components.[br]
@@ -160,7 +176,7 @@ func update_movement_vectors() -> void:
 	move_vector = InputHandler.get_movement_vector()
 	to_mouse_vector = InputHandler.get_mouse_direction(self).normalized()
 
-	if use_mouse_vector:
+	if InputHandler.is_control_kbm() and use_mouse_vector:
 	
 		if is_running and not is_dashing and move_vector.length() > 0.01:
 			dash_vector = move_vector.normalized()
@@ -179,21 +195,20 @@ func draw_debug_vectors() -> void:
 	# Draw the direction to the mouse cursor - Green
 	DebugDraw3D.draw_line(global_transform.origin, global_transform.origin + to_mouse_vector*5, Color(0, 1, 0))
 
-	# Draw the last non-zero move vector - Blue
-	DebugDraw3D.draw_line(global_transform.origin, global_transform.origin + last_move_vector*5, Color(0, 0, 1), 2)
-
 	# Draw the dash vector - Yellow
 	DebugDraw3D.draw_line(global_transform.origin, global_transform.origin + dash_vector* 5, Color(1, 1, 0))
 
 	# Draw the forward vector - White
 	DebugDraw3D.draw_line(global_transform.origin, global_transform.origin - global_transform.basis.z * 3, Color(1, 1, 1))
 
-	if near_enemy:
-		DebugDraw3D.draw_line(global_transform.origin, near_enemy.global_transform.origin, Color(1, 0, 1))
+	if cone_target:
+		DebugDraw3D.draw_line(global_transform.origin, cone_target.global_transform.origin, Color(1, 0, 1))
 
-	if closest_enemy:
-		DebugDraw3D.draw_line(global_transform.origin, closest_enemy.global_transform.origin, Color(0, 1, 1))
-	
+	if closest_target:
+		DebugDraw3D.draw_line(global_transform.origin, closest_target.global_transform.origin, Color(0, 1, 1))
+		
+	if attack_target:
+		DebugDraw3D.draw_line(global_transform.origin, attack_target.global_transform.origin, Color(1, 0, 1))
 
 			
 
@@ -210,68 +225,63 @@ func _on_check_button_toggled(toggled_on: bool) -> void:
 	use_mouse_vector = toggled_on
 
 
-func get_closest_enemy(max_range: float, max_angle_deg: float, close_override: float = 0.5, perfect_angle_threshold: float = 5.0) -> void:
-	var overall_closest: Node3D = null
-	var overall_closest_dist: float = INF
-	
-	var in_angle_closest: Node3D = null
-	var in_angle_closest_dist: float = INF
-	
-	# For extra priority if the angle is almost perfect.
-	var perfect_candidate: Node3D = null
-	var perfect_candidate_angle: float = INF
-	
-	# Iterate through all enemies.
-	for enemy in get_tree().get_nodes_in_group("Enemies"):
-		if enemy.is_alive and enemy is Node3D:
-			var d = global_transform.origin.distance_to(enemy.global_transform.origin)
-			#print("Enemy:", enemy.name, "distance:", d, "max_range:", max_range)
-			if d <= max_range:
-				# Update overall closest enemy.
-				if d < overall_closest_dist:
-					overall_closest = enemy
-					overall_closest_dist = d
-				
-				# Check for override distance first.
-				if d <= close_override:
-					in_angle_closest = enemy
-					in_angle_closest_dist = d
-				else:
-					# Otherwise check angle.
-					var to_enemy = (enemy.global_transform.origin - global_transform.origin).normalized()
-					var base_vector = dash_vector.normalized()
-					var angle_deg = rad_to_deg(acos(clamp(base_vector.dot(to_enemy), -1.0, 1.0)))
-					
-					# If the enemy's angle is nearly perfect, update perfect_candidate.
-					if angle_deg < perfect_angle_threshold and angle_deg < perfect_candidate_angle:
-						perfect_candidate = enemy
-						perfect_candidate_angle = angle_deg
-					
-					# Update the in-angle candidate if within the allowed angle and closer.
-					if angle_deg <= max_angle_deg and d < in_angle_closest_dist:
-						in_angle_closest = enemy
-						in_angle_closest_dist = d
-	
-	# Decide which enemy to use.
-	if perfect_candidate:
-		near_enemy = perfect_candidate
-	elif in_angle_closest:
-		near_enemy = in_angle_closest
-	else:
-		near_enemy = overall_closest
-	
-	if near_enemy:
-		attack_vector = (near_enemy.global_transform.origin - global_transform.origin).normalized()
-		distance_to_enemy = global_transform.origin.distance_to(near_enemy.global_transform.origin)
-	else:
-		attack_vector = dash_vector
-		distance_to_enemy = 0.0
+func update_attack_direction() -> void:
+	# Reset the attack vector and clear previous target data.
+	attack_vector = Vector3.ZERO
+	cone_target = null
+	exact_target = null
+	closest_target = null
+	attack_target = null
 
-# Helper function for sorting.
-func sort_by_distance(a, b):
-	if a["dist"] < b["dist"]:
-		return -1
-	elif a["dist"] > b["dist"]:
-		return 1
+	# If using keyboard/mouse input and mouse-based targeting is enabled:
+	if InputHandler.is_control_kbm() and use_mouse_vector:
+		# Get the precise target under the mouse cursor.
+		exact_target = Targeting.get_target_at_mouse_position(self)
+		# Get a target in a cone from the mouse direction (accounts for peripheral targets).
+		cone_target = Targeting.get_target_in_mouse_direction(self, 5.0, 30.0)
+		
+		# Outcome 1: Only an exact target is found.
+		if (exact_target and not cone_target):
+			# Choose the exact target.
+			attack_target = exact_target
+		# Outcome 2: Both targets are found, so choose the one that is closer.
+		elif (exact_target and cone_target
+			and global_transform.origin.distance_squared_to(exact_target.global_transform.origin) > global_transform.origin.distance_squared_to(cone_target.global_transform.origin)):
+			# Choose the cone target if it is closer.
+			attack_target = cone_target
+		# Outcome 3: Only one of them is present or conditions don’t favor cone target.
+		else:
+			# Default to the exact target.
+			attack_target = exact_target
+
+		# Outcome: Set attack_vector toward the chosen target, or fallback on the current mouse direction.
+		if attack_target:
+			attack_vector = (attack_target.global_transform.origin - global_transform.origin).normalized()
+		else:
+			attack_vector = InputHandler.get_mouse_direction(self).normalized()
 	else:
-		return 0
+		# When not in mouse-based targeting mode:
+		#
+		# Step 1: Prioritize targets that lie very close to the player's forward direction.
+		# We search within a narrow cone (15°) from the player's forward.
+		var forward_cone_target = Targeting.get_closest_target_in_cone(global_transform.origin, global_transform.basis.z, 5.0, 15.0)
+		
+		# Outcome 1: If a target is found within the narrow cone, use it.
+		if forward_cone_target:
+			attack_target = forward_cone_target
+		else:
+			# Outcome 2: Otherwise, perform a wider search for any nearby target.
+			closest_target = Targeting.get_target_near_position(global_transform.origin, 10.0)
+			if closest_target:
+				var candidate_vec = (closest_target.global_transform.origin - global_transform.origin).normalized()
+				# Only accept the candidate if it lies within 45° of the player's forward direction.
+				if global_transform.basis.z.dot(candidate_vec) >= cos(deg_to_rad(45)):
+					attack_target = closest_target
+				else:
+					attack_target = null
+					
+		# Outcome: Set the attack vector toward the chosen target or default to the player's forward direction.
+		if attack_target:
+			attack_vector = (attack_target.global_transform.origin - global_transform.origin).normalized()
+		else:
+			attack_vector = global_transform.basis.z

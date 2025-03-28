@@ -1,10 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://dfq2y3sot17aa"]
+[gd_scene load_steps=17 format=3 uid="uid://dfq2y3sot17aa"]
 
-[ext_resource type="PackedScene" uid="uid://cjlawtbjulqy8" path="res://scenes/enemies/enemy.tscn" id="1_gbhdq"]
+[ext_resource type="PackedScene" uid="uid://cjlawtbjulqy8" path="res://scenes/enemies/TestEnemy.tscn" id="1_gbhdq"]
 [ext_resource type="PackedScene" uid="uid://bqon2j8trw5g5" path="res://scenes/player/player.tscn" id="1_gojnm"]
 [ext_resource type="PackedScene" uid="uid://cti74sdotxvc5" path="res://main_camera.tscn" id="2_wa5q0"]
 [ext_resource type="PackedScene" uid="uid://cepexqh0wcr2k" path="res://scenes/game elements/enemy_spawn_trigger.tscn" id="2_y646j"]
 [ext_resource type="PackedScene" uid="uid://dgr5vun318cfb" path="res://scenes/game elements/death_area.tscn" id="3_lnbra"]
+[ext_resource type="PackedScene" uid="uid://dlitgjstw42jw" path="res://scenes/UI/hud.tscn" id="6_eg032"]
+[ext_resource type="Script" uid="uid://cyxteka70n7xv" path="res://scripts/Singletons/enemy_manager.gd" id="7_eg032"]
+[ext_resource type="Script" uid="uid://gy225l4e6lwv" path="res://scripts/Singletons/Targeting.gd" id="7_gd42f"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y646j"]
 size = Vector3(29.8527, 13.4263, 26.7051)
@@ -34,7 +37,7 @@ height = 10.0
 height = 10.0
 radius = 1.5
 
-[node name="Node3D" type="Node3D"]
+[node name="test level" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_gojnm")]
 move_speed = 15.0
@@ -178,7 +181,6 @@ collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Ground/Ground_Object6"]
 mesh = SubResource("BoxMesh_gd42f")
-skeleton = NodePath("../../Ground_Object6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ground/Ground_Object6"]
 shape = SubResource("BoxShape3D_eg032")
@@ -394,5 +396,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 radius = 2.65
 affect_navigation_mesh = true
 carve_navigation_mesh = true
+
+[node name="HUD" parent="." instance=ExtResource("6_eg032")]
+
+[node name="EnemyManager" type="Node" parent="."]
+script = ExtResource("7_eg032")
+
+[node name="Targeting" type="Node" parent="."]
+script = ExtResource("7_gd42f")
 
 [connection signal="body_entered" from="Enemy Spawn Trigger" to="Enemy Spawn Trigger" method="_on_body_entered"]
