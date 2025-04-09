@@ -21,6 +21,7 @@ InputHandler="*res://scripts/Singletons/input_handler.gd"
 Targeting="*res://scripts/Singletons/Targeting.gd"
 GlobalEvents="*res://scripts/Singletons/global_events.gd"
 GlobalReferences="*res://scripts/Singletons/GlobalReferences.gd"
+PlayerHistory="*res://scripts/Singletons/PlayerHistory.gd"
 
 [debug]
 

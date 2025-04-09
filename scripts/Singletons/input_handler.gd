@@ -31,7 +31,10 @@ func set_camera(cam: Camera3D):
 	camera = cam
 
 func _ready() -> void:
-			emit_signal("control_set_changed", current_input_scheme)
+	await get_tree().create_timer(0.1).timeout
+	emit_signal("control_set_changed", current_input_scheme)
+	camera = get_viewport().get_camera_3d()
+	
 
 ## Function: is_control_kbm
 ## Purpose: Check if the current input scheme is Keyboard & Mouse.
@@ -51,7 +54,7 @@ func _input(event: InputEvent):
 	# **Detect input scheme dynamically**
 	if event is InputEventKey or event is InputEventMouseMotion or event is InputEventMouseButton:
 		switch_input_scheme(INPUT_SCHEMES.KBM)
-	elif ( event is InputEventJoypadMotion and Input.get_vector("move_left", "move_right", "move_up", "move_down").length() > .05 ) or event is InputEventJoypadButton:
+	elif event is InputEventJoypadMotion and abs(event.axis_value) > 0.2 or event is InputEventJoypadButton:
 		switch_input_scheme(INPUT_SCHEMES.GAMEPAD)
 	elif event is InputEventScreenTouch or event is InputEventScreenDrag:
 		switch_input_scheme(INPUT_SCHEMES.TOUCH)

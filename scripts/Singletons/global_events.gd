@@ -1,5 +1,10 @@
 extends Node
 
+
+## Signal: camera_set
+## Emitted when the camera is set.
+signal event_camera_set(camera)
+
 ## Signal: enemy_killed
 ## Emitted when an enemy is killed.
 signal event_enemy_killed(enemy)
@@ -22,9 +27,19 @@ signal event_weapon_equipped(weapon_id)
 ##   position: The starting position as a Vector3.
 signal event_arena_start(position)
 
+## Signal: arena_spawn
+## Emitted to spawn enemies after a wave is configured.
+signal event_arena_wave_spawn
+
+signal event_arena_wave_start
+
+signal event_arena_wave_end
+
 ## Signal: arena_end
 ## Emitted when an arena event ends.
 signal event_arena_end
+
+
 
 ## Signal: powerup_collected
 ## Emitted when a power-up is collected.
@@ -98,4 +113,7 @@ func unsubscribe_from_event(event_name: String, target: Object, method: String):
 ##   event_name (String): The name of the event to emit.
 ##   data (Variant): Optional data to include with the event (defaults to null).
 func emit_event(event_name: String, data = null):
-	emit_signal(event_name, data)
+	if data == null:
+		emit_signal(event_name)
+	else:
+		emit_signal(event_name, data)

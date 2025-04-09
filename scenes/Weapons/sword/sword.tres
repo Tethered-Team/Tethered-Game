@@ -7,11 +7,9 @@
 [sub_resource type="Resource" id="Resource_17cly"]
 script = ExtResource("1_bj8sw")
 animation_name = "kayKit_adventurer/1H_Melee_Attack_Stab"
-attack_speed_multiplier = 1.2
-start_offset = 0.3
-end_offset = 0.35
-start_attack_window_offset = 0.6
-end_attack_window_offset = 0.2
+attack_speed_multiplier = 1.0
+combo_attack_early = 0.1
+combo_timer = 0.75
 per_attack_damage_modifier = 0
 critical_chance = 0.0
 critical_multiplier = 2.0
@@ -26,11 +24,9 @@ metadata/_custom_type_script = "uid://bjm3qexutk8t5"
 [sub_resource type="Resource" id="Resource_rj48f"]
 script = ExtResource("1_bj8sw")
 animation_name = "kayKit_adventurer/2H_Melee_Attack_Chop"
-attack_speed_multiplier = 1.3
-start_offset = 0.2
-end_offset = 0.8
-start_attack_window_offset = 0.6
-end_attack_window_offset = 0.2
+attack_speed_multiplier = 1.0
+combo_attack_early = 0.1
+combo_timer = 0.75
 per_attack_damage_modifier = 0
 critical_chance = 0.0
 critical_multiplier = 2.0
@@ -44,12 +40,10 @@ metadata/_custom_type_script = "uid://bjm3qexutk8t5"
 
 [sub_resource type="Resource" id="Resource_3u4mm"]
 script = ExtResource("1_bj8sw")
-animation_name = "kayKit_adventurer/1H_Melee_Attack_Slice_Horizontal"
-attack_speed_multiplier = 1.2
-start_offset = 0.2
-end_offset = 0.8
-start_attack_window_offset = 0.6
-end_attack_window_offset = 0.35
+animation_name = "kayKit_adventurer/2H_Melee_Attack_Slice"
+attack_speed_multiplier = 1.0
+combo_attack_early = 0.1
+combo_timer = 0.75
 per_attack_damage_modifier = 5
 critical_chance = 0.0
 critical_multiplier = 2.0
@@ -67,7 +61,7 @@ name = "Sword"
 light_combo = Array[ExtResource("1_bj8sw")]([SubResource("Resource_17cly"), SubResource("Resource_rj48f"), SubResource("Resource_3u4mm")])
 heavy_combo = Array[ExtResource("1_bj8sw")]([])
 special_combo = Array[ExtResource("1_bj8sw")]([])
-base_damage = null
+base_damage = 10.0
 weapon_model = ExtResource("3_17cly")
 attachment_bone = "hand.r"
 attachment_transform = Transform3D(-0.448074, -0.893997, 0, 0.893997, -0.448074, 0, 0, 0, 1, 0, 0, 0)

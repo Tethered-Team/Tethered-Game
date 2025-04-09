@@ -80,15 +80,18 @@ func attack(attack_type: String) -> void:
 	# Optionally, force an immediate update (or wait one frame)
 	# call_deferred("start_attack_animation", current_attack)
 
+
+	var attack_length: float = animation_player.get_animation(current_attack.animation_name).length
+
 	# Then start the new attack animation.
-	start_attack_animation()
+	start_attack_animation(attack_length)
 		
 	can_attack = false  # Prevent new attacks until window expires
 	
 	# Restart the combo reset timer.
 		
 	# Start the attack window timer.
-	start_attack_timer(current_attack.start_attack_window_offset)
+	start_attack_timer(attack_length - current_attack.combo_attack_early)
 	
 
 
@@ -178,24 +181,24 @@ func start_attack_timer(duration: float) -> void:
 ## Parameters:
 ##   current_attack (AttackData): The data for the current attack.
 ## Returns: void.
-func start_attack_animation() -> void:
+func start_attack_animation(attack_length: float) -> void:
 	# Set the new attack animation name on the attack_node.
 	parent.attack_node.animation = current_attack.animation_name
 	print("Attack Animation:", current_attack.animation_name)
-	# Change into the attack state.
-	parent.playback.travel("Attack")
 	
 	# Configure and play the animation with no blend time so it starts smoothly.
 	animation_player.speed_scale = current_attack.attack_speed_multiplier
-	var start_offset: float = (current_attack.start_offset_percent * animation_player.get_animation(current_attack.animation_name).length)
+
+	# Change into the attack state.
+	parent.playback.travel("Attack")
 	
-	animation_player.play(current_attack.animation_name, 0.0, current_attack.attack_speed_multiplier, start_offset)
+
+	
 
 	# Enable the hitbox for the attack.
 	hitbox.monitoring = true
 
 	# (Optional) print out length for debugging.
-	var attack_length: float = animation_player.get_animation(current_attack.animation_name).length
 	print("Attack Animation Length:", attack_length)
 
 	combo_timer.stop()

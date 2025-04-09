@@ -1,7 +1,11 @@
 extends CharacterBody3D
 class_name Enemy
 
-@export var enemy_data: EnemySpawnData
+var id: int = 0
+var weight: int = 1
+var spawn_radius: float = 1.0
+var can_summon: bool = false
+var tags: Array[String] = []
 
 @onready var animation_tree = $AnimationTree
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
@@ -11,7 +15,7 @@ class_name Enemy
 @onready var movement: Node = $Movement 
 
 var player
-var player_position_history: Array[Vector3] = []
+#var player_position_history: Array[Vector3] = []
 var is_seeking_player: bool = false  # Ensures tracking starts only after spawn animation
 var is_alive
 var is_in_hit_reaction: bool = false
@@ -28,6 +32,7 @@ enum SPAWN_POSES {FLOOR, FLOOR_LONG, STANDING, IDLE, GROUND, SPAWN_AIR, RESURREC
 var angle_toward_player: float = 1
 
 @export_category("AI Navigation")
+@export var attack_range: float = 5.0
 @export var delay_steps: int = 20  # Delay in frames before reacting to player\]
 @export var min_distance_to_target: float = 4
 @export var seperation_distance: float = 2
@@ -35,12 +40,12 @@ var angle_toward_player: float = 1
 
 var is_grounded
 
-# ✅ **Initialization**
-func _ready():
-	player = get_tree().get_first_node_in_group("Player")
-	animation_tree.active = true  # Ensure AnimationTree is running
+# # ✅ **Initialization**
+# func _ready():
+# 	player = get_tree().get_first_node_in_group("Player")
+# 	animation_tree.active = true  # Ensure AnimationTree is running
 		
-	spawn()
+# 	spawn()
 
 
 # ✅ **Spawning Logic**
@@ -62,35 +67,37 @@ func spawn():
 
 	#print("Has started moving: ", self.name)
 
-# ✅ **Physics Update**
-func _physics_process(delta):
+# # ✅ **Physics Update**
+# func _physics_process(delta):
 
-	if is_seeking_player:
-		update_player_history()
-		move_towards_player(delta)
+# 	if is_seeking_player:
+# 		update_player_history()
+# 		move_towards_player(delta)
 
-	move_and_slide()
+# 	move_and_slide()
 
 
-# ✅ **Update Player Position History**
-func update_player_history():
-	player_position_history.append(player.global_position)
+# # ✅ **Update Player Position History**
+# func update_player_history():
+# 	player_position_history.append(player.global_position)
 
-	# Limit history size to avoid excessive memory usage
-	if player_position_history.size() > delay_steps:
-		player_position_history.pop_front()
+# 	# Limit history size to avoid excessive memory usage
+# 	if player_position_history.size() > delay_steps:
+# 		player_position_history.pop_front()
 
 # ✅ **Enemy Movement & Rotation**
 func move_towards_player(delta):
 	# Move towards an older position of the player (delayed tracking)
-	if player_position_history.size() >= delay_steps:
-		var delayed_position = player_position_history[0]  # Oldest stored position
-
+	if PlayerHistory.get_player_position_history_size() >= 0:
+		var delayed_position = PlayerHistory.get_player_position_at_index(delay_steps - 1)
 		navigation_agent_3d.target_position = delayed_position
 		
 		# **Determine movement direction**
 		var target_direction = (navigation_agent_3d.get_next_path_position() - global_position).normalized()
 		
+		print("Target direction: ", target_direction)
+
+
 		if not is_in_hit_reaction:
 			if global_transform.origin.distance_to(delayed_position) > min_distance_to_target:
 				# **Move forward relative to facing direction**
@@ -105,7 +112,9 @@ func move_towards_player(delta):
 				velocity.x = 0
 				velocity.z = 0
 
-
+func can_move() -> bool:
+	# Check if the enemy is alive and not in a hit reaction
+	return is_alive and not is_in_hit_reaction and is_seeking_player
 	
 
 func die():
@@ -179,8 +188,8 @@ func reset():
 	velocity = Vector3.ZERO
 	# Reset animation
 	state_machine.travel("Movement")
-	# Reset player history
-	player_position_history.clear()
+	# # Reset player history
+	# player_position_history.clear()
 	# Reset navigation agent
 	navigation_agent_3d.target_position = Vector3.ZERO
 	# Reset AI state
@@ -204,4 +213,7 @@ func despawn():
 
 	GlobalEvents.emit_signal("event_enemy_despawn", self)
 
-	
+
+func deferred_get_player() -> void:
+	# Get the player node from the scene tree
+	player = GlobalReferences.get_player()

@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://bsylpflebgs3t"]
 
+[ext_resource type="PackedScene" uid="uid://cti74sdotxvc5" path="res://scenes/game elements/camera/main_camera.tscn" id="1_gt1nj"]
 [ext_resource type="PackedScene" uid="uid://bqon2j8trw5g5" path="res://scenes/player/player.tscn" id="1_k67ec"]
-[ext_resource type="PackedScene" uid="uid://cti74sdotxvc5" path="res://main_camera.tscn" id="2_4uv6p"]
 [ext_resource type="PackedScene" uid="uid://cm8tr11uqvwjc" path="res://scenes/game elements/enemy_spawn_point.tscn" id="3_tbuo3"]
 [ext_resource type="Script" uid="uid://cyxteka70n7xv" path="res://scripts/Singletons/enemy_manager.gd" id="4_nyw1r"]
 [ext_resource type="Script" uid="uid://dndxuu21a5mo1" path="res://scripts/enemies/EnemySpawnData.gd" id="6_r1wm6"]
@@ -252,11 +252,11 @@ radius = 2.65
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
+[node name="MainCamera" parent="." instance=ExtResource("1_gt1nj")]
+
 [node name="Player" parent="." instance=ExtResource("1_k67ec")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.90998, 1.10944, 27.3886)
 move_speed = 10.0
-
-[node name="MainCamera" parent="." instance=ExtResource("2_4uv6p")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.909025, 0.19642, 0.36755, -0.37114, 0.782708, 0.499622, -0.189549, -0.590582, 0.784401, -0.118864, 13.9325, -0.0995173)
@@ -322,9 +322,9 @@ shape = SubResource("BoxShape3D_jjykr")
 
 [node name="EnemyManager" type="Node" parent="."]
 script = ExtResource("4_nyw1r")
-wave_weights = Array[int]([1, 2, 12])
+wave_weights = Array[int]([3, 2, 12])
 enemy_data_pool = SubResource("Resource_gt1nj")
+min_spawn_distance_from_player = 10.0
+max_spawn_distance_from_player = 100.0
 
 [node name="HUD" parent="." instance=ExtResource("9_bd0ev")]
-
-[connection signal="body_entered" from="Enemy Spawn Trigger" to="Enemy Spawn Trigger" method="_on_body_entered"]

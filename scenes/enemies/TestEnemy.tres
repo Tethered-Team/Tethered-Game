@@ -6,8 +6,9 @@
 [resource]
 script = ExtResource("1_8n72p")
 scene = ExtResource("1_sjvua")
+id = 0
 weight = 1
-spawn_radius = 2.5
+spawn_radius = 1.0
 can_summon = false
 tags = Array[String]([])
 metadata/_custom_type_script = "uid://dndxuu21a5mo1"

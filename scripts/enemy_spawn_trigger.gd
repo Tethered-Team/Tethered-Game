@@ -10,6 +10,17 @@ extends Area3D
 @export var parent: bool = true
 @export var group: bool = true
 
+
+func _ready() -> void:
+	# Connect the body_entered signal to the _on_body_entered function
+	connect("body_entered", Callable(self, "_on_body_entered"))
+	
+	# Ensure the trigger is not already triggered
+	if has_been_triggered:
+		self.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+	else:
+		self.physics_interpolation_mode = Node3D.PHYSICS_INTERPOLATION_MODE_ON
+
 func _on_body_entered(body):
 	spawn_using_enemy_manager(body)
 	print("Trigger entered:", body)

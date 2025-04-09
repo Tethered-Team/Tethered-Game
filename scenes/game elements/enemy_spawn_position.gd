@@ -62,12 +62,19 @@ func can_spawn_size(size: float) -> bool:
 	return size <= spawn_radius
 
 func get_valid_position(radius: float) -> Vector3:
+	return deferred_valid_position(radius)
+
+
+func deferred_valid_position(radius: float) -> Vector3:
 	var attempts = 10
 	var world = get_world_3d()
 	if world == null:
 		push_error("World is null in get_valid_position()")
 		return Vector3.ZERO
 	var space_state = world.direct_space_state
+	if space_state == null:
+		push_error("Direct space state is null in get_valid_position()")
+		return Vector3.ZERO
 	while attempts > 0:
 		# Generate a random position within the given radius.
 		var random_dir = Vector3(randf_range(-1, 1), 0, randf_range(-1, 1))

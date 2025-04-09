@@ -4,12 +4,13 @@ class_name AttackData
 @export_group("Attack Data")
 @export var animation_name: String = "attack_0"  # Attack animation
 @export var attack_speed_multiplier: float = 1.0  # Affects attack speed
-@export_range(0.0, 1.0, 0.05) var start_offset_percent: float = 0.2  # Time to start the animation
-@export_range(0.0, 1.0, 0.05) var end_offset_percent: float = 0.8  # Time to end the animation
+#@export_range(0.0, 1.0, 0.05) var start_offset_percent: float = 0.2  # Time to start the animation
+#@export_range(0.0, 1.0, 0.05) var end_offset_percent: float = 0.8  # Time to end the animation
 
 # ✅ **Combo properties**
 @export_group("Combo")
-@export_range(0.0, 1.0, 0.05) var : float = 0.3  # Time to chain attacks
+@export_range(0.0, 1.0, 0.05) var combo_attack_early: float = 0.2  # Time to chain attacks
+@export_range(0.0, 1.0, 0.05) var combo_timer: float = 0.3  # Time to chain attacks
 
 # ✅ **Damage properties**
 @export_group("Damage")

@@ -6,6 +6,9 @@ var enemy_manager: Node = null
 var main_camera: Camera3D = null
 var camera_controller: Node3D = null
 
+var PLAYER_LAYER_INDEX = 1 # Adjust this index to match the player's collision layer
+var DASH_PASSABLE_LAYER_INDEX = 2 # Adjust this index to match the dash passable layer
+
 
 func get_player() -> Player:
 	return player 
