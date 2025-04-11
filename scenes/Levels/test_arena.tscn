@@ -1,7 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://bsylpflebgs3t"]
+[gd_scene load_steps=24 format=3 uid="uid://bsylpflebgs3t"]
 
+[ext_resource type="Script" uid="uid://bqwv47awuvngw" path="res://scenes/game elements/prompt_button_press_trigger.gd" id="1_cofgt"]
 [ext_resource type="PackedScene" uid="uid://cti74sdotxvc5" path="res://scenes/game elements/camera/main_camera.tscn" id="1_gt1nj"]
 [ext_resource type="PackedScene" uid="uid://bqon2j8trw5g5" path="res://scenes/player/player.tscn" id="1_k67ec"]
+[ext_resource type="Texture2D" uid="uid://b2hh2iypokls8" path="res://assets/kenny/particles/PNG (Transparent)/circle_02.png" id="2_2q6b1"]
+[ext_resource type="Texture2D" uid="uid://dyhnkn5gy7mrq" path="res://assets/kenny/kenney_input-prompts_1.4/Keyboard & Mouse/Double/keyboard_e_outline.png" id="2_71xkl"]
+[ext_resource type="Texture2D" uid="uid://c8gpqx65p7lpq" path="res://assets/kenny/kenney_input-prompts_1.4/Keyboard & Mouse/Double/keyboard_e.png" id="3_6is1t"]
 [ext_resource type="PackedScene" uid="uid://cm8tr11uqvwjc" path="res://scenes/game elements/enemy_spawn_point.tscn" id="3_tbuo3"]
 [ext_resource type="Script" uid="uid://cyxteka70n7xv" path="res://scripts/Singletons/enemy_manager.gd" id="4_nyw1r"]
 [ext_resource type="Script" uid="uid://dndxuu21a5mo1" path="res://scripts/enemies/EnemySpawnData.gd" id="6_r1wm6"]
@@ -10,11 +14,8 @@
 [ext_resource type="Script" uid="uid://b6eb15d5b8id" path="res://scripts/enemies/EnemyDataPool.gd" id="8_jjykr"]
 [ext_resource type="PackedScene" uid="uid://dlitgjstw42jw" path="res://scenes/UI/hud.tscn" id="9_bd0ev"]
 
-[sub_resource type="NavigationMesh" id="NavigationMesh_4uv6p"]
-vertices = PackedVector3Array(-7, 0.38518, -20.5, 0, 0.38518, -26, 0, 0.38518, -31, -23.5, 0.38518, -17, -9.5, 0.38518, -17, -23.5, 0.38518, -31, -0.5, 0.38518, -19.5, 0.5, 0.38518, -18, 1.5, 0.38518, -19, 10.5, 0.38518, -28.5, 12.5, 0.38518, -28.5, 12.5, 0.38518, -31, 3, 0.38518, -22.5, 4.5, 0.38518, -19, 6, 0.38518, -14, 4, 0.38518, -12.5, 8, 0.38518, -4, 10, 0.38518, -4, 11, 0.38518, -15, 6, 0.38518, -17.5, 2.5, 0.38518, -24.5, 6, 0.38518, -1.5, 14.5, 0.38518, -28.5, 23.5, 0.38518, -31, 15, 0.38518, -27, 15, 0.38518, -18.5, 23.5, 0.38518, -18, -0.5, 0.38518, -17, -6, 0.38518, -14.5, 5, 0.38518, 1, 6, 0.38518, 0.5, 1, 0.38518, -12.5, 0, 0.38518, -13.5, -7.5, 0.38518, -14.5, -7.5, 0.38518, 0.5, 12.5, 0.38518, 1, 11.5, 0.38518, 2, 13, 0.38518, 3.5, 12.5, 0.38518, -2.5, 20.5, 0.38518, -2.5, 14, 0.38518, -14.5, 22, 0.38518, -2.5, 15, 0.38518, -15.5, 23.5, 0.38518, -1, -11, 0.38518, 3.5, -8.5, 0.38518, 3, -8.5, 0.38518, 0.5, -13, 0.38518, 0.5, -23.5, 0.38518, 3.5, -17.5, 0.38518, 3.5, -17.5, 0.38518, 2, -15.5, 0.38518, 0.5, 8, 0.38518, 2.5, 11, 0.38518, 5.5, 5, 0.38518, 5, 11.5, 0.38518, 7.5, 3, 0.38518, 23.5, 0.5, 0.38518, 23, -0.5, 0.38518, 31, 12.5, 0.38518, 12.5, 13, 0.38518, 8.5, 9.5, 0.38518, 13, 11.5, 0.38518, 31, 11.5, 0.38518, 27, 9.5, 0.38518, 26, 4.5, 0.38518, 20, 4.5, 0.38518, 22, -3, 0.38518, 5, -2.5, 0.38518, 10, 13.5, 0.38518, 12.5, 14, 0.38518, 14, 16.5, 0.38518, 7.5, 14, 0.38518, 25.5, 23.5, 0.38518, 31, 23.5, 0.38518, 1, -8.5, 0.38518, 4.5, -11, 0.38518, 5.5, -6, 0.38518, 12.5, -9, 0.38518, 15.5, -7, 0.38518, 17, -13, 0.38518, 7, -11, 0.38518, 15.5, -7, 0.38518, 20.5, -8.5, 0.38518, 22, -10.5, 0.38518, 22, -10.5, 0.38518, 31, -17.5, 0.38518, 5.5, -16, 0.38518, 7, -23.5, 0.38518, 18.5, -13.5, 0.38518, 17, -13.5, 0.38518, 18.5, -12, 0.38518, 22, -13.5, 0.38518, 20.5, -23.5, 0.38518, 31)
-polygons = [PackedInt32Array(0, 2, 1), PackedInt32Array(0, 4, 2), PackedInt32Array(2, 4, 3), PackedInt32Array(2, 3, 5), PackedInt32Array(8, 7, 6), PackedInt32Array(11, 10, 9), PackedInt32Array(8, 6, 13), PackedInt32Array(13, 6, 12), PackedInt32Array(14, 18, 15), PackedInt32Array(15, 18, 16), PackedInt32Array(16, 18, 17), PackedInt32Array(12, 20, 13), PackedInt32Array(13, 20, 19), PackedInt32Array(19, 20, 18), PackedInt32Array(18, 20, 9), PackedInt32Array(1, 2, 20), PackedInt32Array(20, 2, 9), PackedInt32Array(9, 2, 11), PackedInt32Array(18, 14, 19), PackedInt32Array(16, 21, 15), PackedInt32Array(10, 11, 22), PackedInt32Array(22, 11, 23), PackedInt32Array(25, 24, 26), PackedInt32Array(26, 24, 23), PackedInt32Array(24, 22, 23), PackedInt32Array(7, 27, 6), PackedInt32Array(6, 27, 28), PackedInt32Array(21, 30, 29), PackedInt32Array(31, 15, 21), PackedInt32Array(28, 27, 32), PackedInt32Array(28, 32, 31), PackedInt32Array(28, 31, 33), PackedInt32Array(33, 31, 34), PackedInt32Array(34, 31, 21), PackedInt32Array(34, 21, 29), PackedInt32Array(37, 36, 35), PackedInt32Array(35, 38, 37), PackedInt32Array(37, 38, 39), PackedInt32Array(39, 17, 41), PackedInt32Array(41, 17, 40), PackedInt32Array(40, 17, 18), PackedInt32Array(42, 25, 26), PackedInt32Array(42, 26, 40), PackedInt32Array(40, 26, 41), PackedInt32Array(41, 26, 43), PackedInt32Array(39, 38, 17), PackedInt32Array(46, 45, 44), PackedInt32Array(44, 47, 46), PackedInt32Array(46, 47, 33), PackedInt32Array(50, 49, 48), PackedInt32Array(50, 48, 51), PackedInt32Array(51, 48, 3), PackedInt32Array(51, 3, 4), PackedInt32Array(51, 4, 33), PackedInt32Array(33, 34, 46), PackedInt32Array(33, 47, 51), PackedInt32Array(29, 30, 52), PackedInt32Array(37, 53, 36), PackedInt32Array(36, 53, 52), PackedInt32Array(29, 52, 54), PackedInt32Array(54, 52, 53), PackedInt32Array(54, 53, 55), PackedInt32Array(58, 57, 56), PackedInt32Array(60, 59, 55), PackedInt32Array(55, 59, 61), PackedInt32Array(62, 64, 63), PackedInt32Array(66, 65, 64), PackedInt32Array(64, 65, 61), PackedInt32Array(55, 61, 54), PackedInt32Array(54, 61, 67), PackedInt32Array(67, 61, 68), PackedInt32Array(68, 61, 65), PackedInt32Array(66, 64, 56), PackedInt32Array(56, 64, 62), PackedInt32Array(56, 62, 58), PackedInt32Array(69, 59, 60), PackedInt32Array(69, 60, 70), PackedInt32Array(70, 60, 71), PackedInt32Array(63, 72, 62), PackedInt32Array(62, 72, 73), PackedInt32Array(71, 74, 70), PackedInt32Array(70, 74, 72), PackedInt32Array(72, 74, 73), PackedInt32Array(45, 75, 44), PackedInt32Array(44, 75, 76), PackedInt32Array(79, 78, 77), PackedInt32Array(76, 75, 80), PackedInt32Array(68, 77, 67), PackedInt32Array(67, 77, 75), PackedInt32Array(75, 77, 80), PackedInt32Array(80, 77, 81), PackedInt32Array(79, 77, 82), PackedInt32Array(82, 77, 57), PackedInt32Array(57, 83, 82), PackedInt32Array(84, 83, 85), PackedInt32Array(85, 83, 58), PackedInt32Array(58, 83, 57), PackedInt32Array(78, 81, 77), PackedInt32Array(48, 49, 86), PackedInt32Array(86, 87, 48), PackedInt32Array(48, 87, 81), PackedInt32Array(48, 81, 89), PackedInt32Array(48, 89, 88), PackedInt32Array(87, 80, 81), PackedInt32Array(89, 90, 88), PackedInt32Array(91, 84, 85), PackedInt32Array(88, 90, 92), PackedInt32Array(91, 85, 92), PackedInt32Array(92, 85, 93), PackedInt32Array(92, 93, 88)]
-cell_size = 0.5
-agent_radius = 1.5
+[sub_resource type="SphereShape3D" id="SphereShape3D_71xkl"]
+radius = 1.69364
 
 [sub_resource type="BoxMesh" id="BoxMesh_tbuo3"]
 size = Vector3(50, 1, 65)
@@ -37,6 +38,12 @@ height = 10.0
 height = 10.0
 radius = 1.5
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_4uv6p"]
+vertices = PackedVector3Array(-7, 0.38518, -20.5, 0, 0.38518, -26, 0, 0.38518, -31, -23.5, 0.38518, -17, -9.5, 0.38518, -17, -23.5, 0.38518, -31, -0.5, 0.38518, -19.5, 0.5, 0.38518, -18, 1.5, 0.38518, -19, 10.5, 0.38518, -28.5, 12.5, 0.38518, -28.5, 12.5, 0.38518, -31, 3, 0.38518, -22.5, 4.5, 0.38518, -19, 6, 0.38518, -14, 4, 0.38518, -12.5, 8, 0.38518, -4, 10, 0.38518, -4, 11, 0.38518, -15, 6, 0.38518, -17.5, 2.5, 0.38518, -24.5, 6, 0.38518, -1.5, 14.5, 0.38518, -28.5, 23.5, 0.38518, -31, 15, 0.38518, -27, 15, 0.38518, -18.5, 23.5, 0.38518, -18, -0.5, 0.38518, -17, -6, 0.38518, -14.5, 5, 0.38518, 1, 6, 0.38518, 0.5, 1, 0.38518, -12.5, 0, 0.38518, -13.5, -7.5, 0.38518, -14.5, -7.5, 0.38518, 0.5, 12.5, 0.38518, 1, 11.5, 0.38518, 2, 13, 0.38518, 3.5, 12.5, 0.38518, -2.5, 20.5, 0.38518, -2.5, 14, 0.38518, -14.5, 22, 0.38518, -2.5, 15, 0.38518, -15.5, 23.5, 0.38518, -1, -11, 0.38518, 3.5, -8.5, 0.38518, 3, -8.5, 0.38518, 0.5, -13, 0.38518, 0.5, -23.5, 0.38518, 3.5, -17.5, 0.38518, 3.5, -17.5, 0.38518, 2, -15.5, 0.38518, 0.5, 8, 0.38518, 2.5, 11, 0.38518, 5.5, 5, 0.38518, 5, 11.5, 0.38518, 7.5, 3, 0.38518, 23.5, 0.5, 0.38518, 23, -0.5, 0.38518, 31, 12.5, 0.38518, 12.5, 13, 0.38518, 8.5, 9.5, 0.38518, 13, 11.5, 0.38518, 31, 11.5, 0.38518, 27, 9.5, 0.38518, 26, 4.5, 0.38518, 20, 4.5, 0.38518, 22, -3, 0.38518, 5, -2.5, 0.38518, 10, 13.5, 0.38518, 12.5, 14, 0.38518, 14, 16.5, 0.38518, 7.5, 14, 0.38518, 25.5, 23.5, 0.38518, 31, 23.5, 0.38518, 1, -8.5, 0.38518, 4.5, -11, 0.38518, 5.5, -6, 0.38518, 12.5, -9, 0.38518, 15.5, -7, 0.38518, 17, -13, 0.38518, 7, -11, 0.38518, 15.5, -7, 0.38518, 20.5, -8.5, 0.38518, 22, -10.5, 0.38518, 22, -10.5, 0.38518, 31, -17.5, 0.38518, 5.5, -16, 0.38518, 7, -23.5, 0.38518, 18.5, -13.5, 0.38518, 17, -13.5, 0.38518, 18.5, -12, 0.38518, 22, -13.5, 0.38518, 20.5, -23.5, 0.38518, 31)
+polygons = [PackedInt32Array(0, 2, 1), PackedInt32Array(0, 4, 2), PackedInt32Array(2, 4, 3), PackedInt32Array(2, 3, 5), PackedInt32Array(8, 7, 6), PackedInt32Array(11, 10, 9), PackedInt32Array(8, 6, 13), PackedInt32Array(13, 6, 12), PackedInt32Array(14, 18, 15), PackedInt32Array(15, 18, 16), PackedInt32Array(16, 18, 17), PackedInt32Array(12, 20, 13), PackedInt32Array(13, 20, 19), PackedInt32Array(19, 20, 18), PackedInt32Array(18, 20, 9), PackedInt32Array(1, 2, 20), PackedInt32Array(20, 2, 9), PackedInt32Array(9, 2, 11), PackedInt32Array(18, 14, 19), PackedInt32Array(16, 21, 15), PackedInt32Array(10, 11, 22), PackedInt32Array(22, 11, 23), PackedInt32Array(25, 24, 26), PackedInt32Array(26, 24, 23), PackedInt32Array(24, 22, 23), PackedInt32Array(7, 27, 6), PackedInt32Array(6, 27, 28), PackedInt32Array(21, 30, 29), PackedInt32Array(31, 15, 21), PackedInt32Array(28, 27, 32), PackedInt32Array(28, 32, 31), PackedInt32Array(28, 31, 33), PackedInt32Array(33, 31, 34), PackedInt32Array(34, 31, 21), PackedInt32Array(34, 21, 29), PackedInt32Array(37, 36, 35), PackedInt32Array(35, 38, 37), PackedInt32Array(37, 38, 39), PackedInt32Array(39, 17, 41), PackedInt32Array(41, 17, 40), PackedInt32Array(40, 17, 18), PackedInt32Array(42, 25, 26), PackedInt32Array(42, 26, 40), PackedInt32Array(40, 26, 41), PackedInt32Array(41, 26, 43), PackedInt32Array(39, 38, 17), PackedInt32Array(46, 45, 44), PackedInt32Array(44, 47, 46), PackedInt32Array(46, 47, 33), PackedInt32Array(50, 49, 48), PackedInt32Array(50, 48, 51), PackedInt32Array(51, 48, 3), PackedInt32Array(51, 3, 4), PackedInt32Array(51, 4, 33), PackedInt32Array(33, 34, 46), PackedInt32Array(33, 47, 51), PackedInt32Array(29, 30, 52), PackedInt32Array(37, 53, 36), PackedInt32Array(36, 53, 52), PackedInt32Array(29, 52, 54), PackedInt32Array(54, 52, 53), PackedInt32Array(54, 53, 55), PackedInt32Array(58, 57, 56), PackedInt32Array(60, 59, 55), PackedInt32Array(55, 59, 61), PackedInt32Array(62, 64, 63), PackedInt32Array(66, 65, 64), PackedInt32Array(64, 65, 61), PackedInt32Array(55, 61, 54), PackedInt32Array(54, 61, 67), PackedInt32Array(67, 61, 68), PackedInt32Array(68, 61, 65), PackedInt32Array(66, 64, 56), PackedInt32Array(56, 64, 62), PackedInt32Array(56, 62, 58), PackedInt32Array(69, 59, 60), PackedInt32Array(69, 60, 70), PackedInt32Array(70, 60, 71), PackedInt32Array(63, 72, 62), PackedInt32Array(62, 72, 73), PackedInt32Array(71, 74, 70), PackedInt32Array(70, 74, 72), PackedInt32Array(72, 74, 73), PackedInt32Array(45, 75, 44), PackedInt32Array(44, 75, 76), PackedInt32Array(79, 78, 77), PackedInt32Array(76, 75, 80), PackedInt32Array(68, 77, 67), PackedInt32Array(67, 77, 75), PackedInt32Array(75, 77, 80), PackedInt32Array(80, 77, 81), PackedInt32Array(79, 77, 82), PackedInt32Array(82, 77, 57), PackedInt32Array(57, 83, 82), PackedInt32Array(84, 83, 85), PackedInt32Array(85, 83, 58), PackedInt32Array(58, 83, 57), PackedInt32Array(78, 81, 77), PackedInt32Array(48, 49, 86), PackedInt32Array(86, 87, 48), PackedInt32Array(48, 87, 81), PackedInt32Array(48, 81, 89), PackedInt32Array(48, 89, 88), PackedInt32Array(87, 80, 81), PackedInt32Array(89, 90, 88), PackedInt32Array(91, 84, 85), PackedInt32Array(88, 90, 92), PackedInt32Array(91, 85, 92), PackedInt32Array(92, 85, 93), PackedInt32Array(92, 93, 88)]
+cell_size = 0.5
+agent_radius = 1.5
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_jjykr"]
 size = Vector3(59.15, 32.05, 82.41)
 
@@ -47,216 +54,259 @@ metadata/_custom_type_script = "uid://b6eb15d5b8id"
 
 [node name="Test_Arena" type="Node3D"]
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-transform = Transform3D(1.00165, 0, 0, 0, 1.00165, 0, 0, 0, 1.00165, 0, 0, 0)
-navigation_mesh = SubResource("NavigationMesh_4uv6p")
+[node name="Interactables" type="Node3D" parent="."]
 
-[node name="Ground" type="Node3D" parent="NavigationRegion3D"]
+[node name="PromptButtonPressTrigger" type="Area3D" parent="Interactables" node_paths=PackedStringArray("prompt")]
+transform = Transform3D(2.84517, 0, 0, 0, 2.84517, 0, 0, 0, 2.84517, 0, 0, -31.8076)
+script = ExtResource("1_cofgt")
+prompt = NodePath("Node3D")
+
+[node name="Sprite3D" type="Sprite3D" parent="Interactables/PromptButtonPressTrigger"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.0105706, 0)
+sorting_offset = -0.4
+modulate = Color(0, 0.5, 1, 1)
+texture = ExtResource("2_2q6b1")
+
+[node name="Node3D" type="Node3D" parent="Interactables/PromptButtonPressTrigger"]
+
+[node name="Label3D" type="Label3D" parent="Interactables/PromptButtonPressTrigger/Node3D"]
+transform = Transform3D(0.212005, 0, 0, 0, 0.212005, 0, 0, 0, 0.212005, 0, 0.613284, 0)
+visible = false
+sorting_offset = 21.185
+billboard = 1
+text = "Press E to confirm"
+font_size = 500
+outline_size = 100
+text_direction = 1
+
+[node name="Sprite3D2" type="Sprite3D" parent="Interactables/PromptButtonPressTrigger/Node3D"]
+transform = Transform3D(0.955601, 0, 0, 0, 0.955601, 0, 0, 0, 0.955601, 0, 0.53111, 0)
+billboard = 1
+texture = ExtResource("3_6is1t")
+
+[node name="Sprite3D" type="Sprite3D" parent="Interactables/PromptButtonPressTrigger/Node3D"]
+transform = Transform3D(2.84517, 0, 0, 0, 2.84517, 0, 0, 0, 2.84517, 0, 1.5111, -31.8076)
+top_level = true
+sorting_offset = 0.205
+modulate = Color(0, 0, 0, 1)
+billboard = 1
+texture = ExtResource("2_71xkl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactables/PromptButtonPressTrigger"]
+shape = SubResource("SphereShape3D_71xkl")
+
+[node name="Ground" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
-[node name="Ground_Object" type="StaticBody3D" parent="NavigationRegion3D/Ground"]
+[node name="Ground_Object" type="StaticBody3D" parent="Ground"]
 collision_layer = 8
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Ground/Ground_Object"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Ground_Object"]
 mesh = SubResource("BoxMesh_tbuo3")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ground/Ground_Object"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Ground_Object"]
 shape = SubResource("BoxShape3D_nyw1r")
 
-[node name="Obstacles" type="Node3D" parent="NavigationRegion3D"]
+[node name="Obstacles" type="Node3D" parent="."]
 
-[node name="Dash_Pass_Wall" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+[node name="Dash_Pass_Wall" type="StaticBody3D" parent="Obstacles"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.28713, 1.68474, 2.55518)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Wall"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.57527, 0)
 mesh = SubResource("BoxMesh_sb7pn")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Wall"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("BoxShape3D_0jrvx")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall"]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacles/Dash_Pass_Wall"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 vertices = PackedVector3Array(-7.26516, 0, 2.098, -7.31308, 0, -1.95954, 6.34494, 0, -1.76432, 6.1978, 0, 2.3187)
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
-[node name="Dash_Pass_Wall2" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+[node name="Dash_Pass_Wall2" type="StaticBody3D" parent="Obstacles"]
 transform = Transform3D(0.526125, 0, -0.850407, 0, 1, 0, 0.850407, 0, 0.526125, -0.355135, 1.68474, 17.1944)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Wall2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.57527, 0)
 mesh = SubResource("BoxMesh_sb7pn")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Wall2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("BoxShape3D_0jrvx")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall2"]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacles/Dash_Pass_Wall2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 vertices = PackedVector3Array(-7.26516, 0, 2.098, -7.31308, 0, -1.95954, 6.34494, 0, -1.76432, 6.1978, 0, 2.3187)
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
-[node name="Dash_Pass_Wall6" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+[node name="Dash_Pass_Wall6" type="StaticBody3D" parent="Obstacles"]
 transform = Transform3D(0.0270147, 0, -0.999635, 0, 1, 0, 0.999635, 0, 0.0270147, 11.7795, 1.68474, 19.9888)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall6"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Wall6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.57527, 0)
 mesh = SubResource("BoxMesh_sb7pn")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall6"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Wall6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("BoxShape3D_0jrvx")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall6"]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacles/Dash_Pass_Wall6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 vertices = PackedVector3Array(-7.26516, 0, 2.098, -7.31308, 0, -1.95954, 6.34494, 0, -1.76432, 6.1978, 0, 2.3187)
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
-[node name="Dash_Pass_Wall3" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+[node name="Dash_Pass_Wall3" type="StaticBody3D" parent="Obstacles"]
 transform = Transform3D(-0.764629, 0, -0.644471, 0, 1, 0, 0.644471, 0, -0.764629, -3.57128, 1.68474, -19.9089)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall3"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Wall3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.57527, 0)
 mesh = SubResource("BoxMesh_sb7pn")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Wall3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("BoxShape3D_0jrvx")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall3"]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacles/Dash_Pass_Wall3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 vertices = PackedVector3Array(-7.26516, 0, 2.098, -7.31308, 0, -1.95954, 6.34494, 0, -1.76432, 6.1978, 0, 2.3187)
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
-[node name="Dash_Pass_Wall4" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+[node name="Dash_Pass_Wall4" type="StaticBody3D" parent="Obstacles"]
 transform = Transform3D(-0.0106112, 0, -0.999944, 0, 1, 0, 0.999944, 0, -0.0106112, 12.7144, 1.68474, -21.1292)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall4"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Wall4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.57527, 0)
 mesh = SubResource("BoxMesh_sb7pn")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall4"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Wall4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("BoxShape3D_0jrvx")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall4"]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacles/Dash_Pass_Wall4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 vertices = PackedVector3Array(-7.26516, 0, 2.098, -7.31308, 0, -1.95954, 6.34494, 0, -1.76432, 6.1978, 0, 2.3187)
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
-[node name="Dash_Pass_Wall5" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+[node name="Dash_Pass_Wall5" type="StaticBody3D" parent="Obstacles"]
 transform = Transform3D(-0.764629, 0, -0.644471, 0, 1, 0, 0.644471, 0, -0.764629, 17.2794, 1.68474, 3.37952)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall5"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Wall5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.57527, 0)
 mesh = SubResource("BoxMesh_sb7pn")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall5"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Wall5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("BoxShape3D_0jrvx")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Wall5"]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacles/Dash_Pass_Wall5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 vertices = PackedVector3Array(-7.26516, 0, 2.098, -7.31308, 0, -1.95954, 6.34494, 0, -1.76432, 6.1978, 0, 2.3187)
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
-[node name="Dash_Pass_Cylinder" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+[node name="Dash_Pass_Cylinder" type="StaticBody3D" parent="Obstacles"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2511, 1.68474, 18.8091)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Cylinder"]
 mesh = SubResource("CylinderMesh_r1wm6")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Cylinder"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("CylinderShape3D_jjykr")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder"]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacles/Dash_Pass_Cylinder"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 radius = 2.65
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
-[node name="Dash_Pass_Cylinder2" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+[node name="Dash_Pass_Cylinder2" type="StaticBody3D" parent="Obstacles"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.3866, 1.68474, 3.92529)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Cylinder2"]
 mesh = SubResource("CylinderMesh_r1wm6")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Cylinder2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("CylinderShape3D_jjykr")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder2"]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacles/Dash_Pass_Cylinder2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 radius = 2.65
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
-[node name="Dash_Pass_Cylinder3" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+[node name="Dash_Pass_Cylinder3" type="StaticBody3D" parent="Obstacles"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.411, 1.68474, -0.692503)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder3"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Cylinder3"]
 mesh = SubResource("CylinderMesh_r1wm6")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Cylinder3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("CylinderShape3D_jjykr")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder3"]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacles/Dash_Pass_Cylinder3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 radius = 2.65
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
-[node name="Dash_Pass_Cylinder4" type="StaticBody3D" parent="NavigationRegion3D/Obstacles"]
+[node name="Dash_Pass_Cylinder4" type="StaticBody3D" parent="Obstacles"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.88179, 1.68474, -15.6933)
 collision_layer = 2
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder4"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Dash_Pass_Cylinder4"]
 mesh = SubResource("CylinderMesh_r1wm6")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder4"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Dash_Pass_Cylinder4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00695801, -1.79956, 0)
 shape = SubResource("CylinderShape3D_jjykr")
 
-[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D/Obstacles/Dash_Pass_Cylinder4"]
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="Obstacles/Dash_Pass_Cylinder4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.87599, 0)
 radius = 2.65
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1.00165, 0, 0, 0, 1.00165, 0, 0, 0, 1.00165, 0, 0, 0)
+visible = false
+navigation_mesh = SubResource("NavigationMesh_4uv6p")
+
 [node name="MainCamera" parent="." instance=ExtResource("1_gt1nj")]
 
 [node name="Player" parent="." instance=ExtResource("1_k67ec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.90998, 1.10944, 27.3886)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.90998, 21.3383, 27.3886)
 move_speed = 10.0
+run_speed = 15.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.909025, 0.19642, 0.36755, -0.37114, 0.782708, 0.499622, -0.189549, -0.590582, 0.784401, -0.118864, 13.9325, -0.0995173)
@@ -266,52 +316,132 @@ shadow_enabled = true
 
 [node name="EnemySpawnPoint" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.09229, 0.166155, -4.36645)
-spawn_radius = 2.5
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint13" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.17311, 0.166155, 5.74879)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint14" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.70041, 0.166155, 12.6549)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint15" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.45176, 0.166155, 9.54128)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint16" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.247864, 0.166155, 6.82752)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint17" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.64489, 0.166155, 9.65735)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint18" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.45526, 0.166155, 17.5939)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint19" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.3343, 0.166155, 18.1626)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint20" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.2529, 0.166155, -2.51783)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint21" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7202, 0.166155, 12.2953)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint22" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.7202, 0.166155, 1.29532)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint23" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.05634, 0.166155, 18.9245)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint24" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.10102, 0.166155, 22.4248)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint25" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2708, 0.166155, 26.1614)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint26" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2708, 0.166155, 26.1614)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint11" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.90771, 0.166155, 14.6336)
+spawn_radius = 1.0
+show_radius_visualizer = true
+
+[node name="EnemySpawnPoint12" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.0517, 0.166155, 11.2218)
+spawn_radius = 1.0
 show_radius_visualizer = true
 
 [node name="EnemySpawnPoint7" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.8375, 0.166151, -21.9675)
-spawn_radius = 2.5
+spawn_radius = 1.0
 show_radius_visualizer = true
 
 [node name="EnemySpawnPoint8" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.3435, 0.166151, 11.8953)
-spawn_radius = 2.5
+spawn_radius = 1.0
 show_radius_visualizer = true
 
 [node name="EnemySpawnPoint9" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.6886, 0.166147, -9.92819)
-spawn_radius = 2.5
+spawn_radius = 1.0
 show_radius_visualizer = true
 
 [node name="EnemySpawnPoint10" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.7643, 0.124659, 18.5163)
-spawn_radius = 2.5
+spawn_radius = 1.0
 show_radius_visualizer = true
 
 [node name="EnemySpawnPoint5" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5566, 0.166155, 22.9868)
-spawn_radius = 2.5
+spawn_radius = 1.0
 show_radius_visualizer = true
 
 [node name="EnemySpawnPoint6" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5566, 0.166155, 22.9868)
-spawn_radius = 2.5
+spawn_radius = 1.0
 show_radius_visualizer = true
 
 [node name="EnemySpawnPoint2" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.72835, 0.166155, 10.1846)
-spawn_radius = 2.5
+spawn_radius = 1.0
 show_radius_visualizer = true
 
 [node name="EnemySpawnPoint3" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.77471, 0.166155, 6.23818)
-spawn_radius = 2.5
+spawn_radius = 1.0
 show_radius_visualizer = true
 
 [node name="EnemySpawnPoint4" parent="SpawnPoints" groups=["SpawnPoints"] instance=ExtResource("3_tbuo3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.74879, 0.166155, -8.82735)
-spawn_radius = 2.5
+spawn_radius = 1.0
 show_radius_visualizer = true
 
 [node name="Enemy Spawn Trigger" parent="." instance=ExtResource("7_r1wm6")]
@@ -322,9 +452,9 @@ shape = SubResource("BoxShape3D_jjykr")
 
 [node name="EnemyManager" type="Node" parent="."]
 script = ExtResource("4_nyw1r")
-wave_weights = Array[int]([3, 2, 12])
+wave_weights = Array[int]([6, 12, 12])
 enemy_data_pool = SubResource("Resource_gt1nj")
-min_spawn_distance_from_player = 10.0
-max_spawn_distance_from_player = 100.0
+max_concurrent_enemies = 30
+min_spawn_distance_from_player = 2.0
 
 [node name="HUD" parent="." instance=ExtResource("9_bd0ev")]

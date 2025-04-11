@@ -217,7 +217,7 @@ func _on_hitbox_body_entered(body: Node) -> void:
 		if body.is_in_group("Enemies"):
 			print("Hit enemy:", body.name)
 			# Add your attack logic here (e.g., applying damage).
-			body.apply_damage(calulate_damage())
+			body.apply_damage(calulate_damage(), parent)
 			
 			# Apply any special effects.
 

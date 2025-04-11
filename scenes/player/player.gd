@@ -57,6 +57,15 @@ var _rotation_speed: float = 10.0
 		if movement != null:
 			movement.rotation_speed = value
 
+var _run_speed: float = 10.0
+@export var run_speed: float = 10.0:
+	get:
+		return dash.run_speed if dash != null else _run_speed
+	set(value):
+		_run_speed = value
+		if dash != null:
+			dash.run_speed = value
+
 # Backing variable for dash speed.
 var _dash_speed: float = 25.0
 @export var dash_speed: float = 25.0:
@@ -176,15 +185,28 @@ func update_movement_vectors() -> void:
 	move_vector = InputHandler.get_movement_vector()
 	to_mouse_vector = InputHandler.get_mouse_direction(self).normalized()
 
-	if InputHandler.is_control_kbm() and use_mouse_vector:
-	
-		if is_running and not is_dashing and move_vector.length() > 0.01:
-			dash_vector = move_vector.normalized()
+	if move_vector.length() > 0.01:
+		if InputHandler.is_control_kbm():
+			if use_mouse_vector:
+				# Use the mouse direction for movement if using keyboard/mouse input.
+				dash_vector = to_mouse_vector
+			else:
+				# Use the input vector for movement if not using mouse direction.
+				dash_vector = move_vector
 		else:
-			dash_vector = to_mouse_vector
+			# Use the input vector for movement if not using keyboard/mouse input.
+			dash_vector = move_vector
 	else:
-		dash_vector = move_vector.normalized()
-		print("Dash vector is move vector: ", dash_vector)
+		if InputHandler.is_control_kbm():
+			if use_mouse_vector:
+				# Use the mouse direction for movement if using keyboard/mouse input.
+				dash_vector = to_mouse_vector
+			else:
+				# Use the input vector for movement if not using mouse direction.
+				dash_vector = global_transform.basis.z
+		else:
+			# Use the input vector for movement if not using keyboard/mouse input.
+			dash_vector = global_transform.basis.z
 
 func draw_debug_vectors() -> void:
 	# Draw debug vectors for movement and rotation.

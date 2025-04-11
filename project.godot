@@ -113,6 +113,10 @@ joystick_right={
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":2,"axis_value":1.0,"script":null)
 ]
 }
+confirm={
+"deadzone": 0.2,
+"events": []
+}
 
 [layer_names]
 

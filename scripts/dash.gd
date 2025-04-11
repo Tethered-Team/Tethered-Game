@@ -98,7 +98,10 @@ func continue_running(character: CharacterBody3D, direction: Vector3):
 			if not character.global_position.is_equal_approx(target):
 				character.look_at(target, Vector3.UP)
 		# Continue running using the same dash direction.
-		character.velocity = character.velocity.normalized() * run_speed
+		character.velocity = direction.normalized() * run_speed
+
+		#print(character.is_running, character.is_dashing)
+		character.move_and_slide()
 
 func start_running(character: CharacterBody3D):
 	is_running = true

@@ -58,6 +58,7 @@ func apply_common_movement(character: CharacterBody3D, delta: float, base_veloci
 # For the player: direct movement based on input.
 func apply_player_movement(character: CharacterBody3D, input_vector: Vector3, delta: float, move_speed: float = speed) -> void:
 	# Assume input_vector is already normalized and represents intended movement direction.
+	
 	var move_velocity = Vector3.ZERO
 	if input_vector.length() > 0.01:
 		move_velocity.x = input_vector.x * move_speed

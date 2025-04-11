@@ -89,10 +89,10 @@ func spawn_next_wave():
 	var weight_budget = wave_weights[current_wave]
 	var configs = pick_enemies_to_spawn(weight_budget, enemy_data_pool.enemies)
 	
-	print("Spawning wave %d with weight budget %d" % [current_wave, weight_budget])
-	print("Selected enemies:", configs)
+	#print("Spawning wave %d with weight budget %d" % [current_wave, weight_budget])
+	#print("Selected enemies:", configs)
 	if configs.size() == 0:
-		print("No enemies selected for this wave.")
+		#print("No enemies selected for this wave.")
 		return
 	
 	# Start an asynchronous routine to spawn one enemy per physics frame
@@ -108,6 +108,7 @@ func spawn_wave_async(configs: Array):
 		# Wait for the next physics frame before spawning the enemy.
 		await get_tree().physics_frame
 		spawn_enemy(config)
+		#print("active enemies: ", active_enemies)
 
 	GlobalEvents.emit_event("event_arena_wave_spawn")
 
@@ -131,7 +132,7 @@ func pick_enemies_to_spawn(weight_budget: int, enemy_pool: Array[EnemySpawnData]
 		var selected = valid.pick_random()
 		remaining -= selected.weight
 		chosen.append(selected)
-		print("Selected enemy: %s, Remaining weight: %d" % [selected.id, remaining])
+		#print("Selected enemy: %s, Remaining weight: %d" % [selected.id, remaining])
 	return chosen
 
 ## Spawns an enemy instance at a valid spawn point while ensuring correct distance from the player.
@@ -148,10 +149,9 @@ func spawn_enemy(data: EnemySpawnData, debug_flag: bool = true) -> void:
 	# Step 2: Determine a valid spawn position within the specified spawn point.
 	var position = spawn_point.get_valid_position(data.spawn_radius)
 	# Exit if no valid position is determined or the position doesn't meet distance criteria.
-	if position == null or not is_valid_spawn_distance(position):
+	if position == null:
 		if debug_flag:
 			push_error("Invalid spawn position for enemy ID: %s" % data.id)
-			push_error("Position: %s, Distance from player: %f" % [position, position.distance_to(player.global_transform.origin)])
 		return
 	
 	# Step 3: Retrieve an enemy instance from the pool associated with this enemy configuration.
@@ -207,19 +207,25 @@ func expand_pool(data: EnemySpawnData, count: int = default_pool_expand_count):
 ## Returns an enemy to the pool when despawned.
 ## @param enemy (Node3D): The enemy instance to return.
 func return_enemy_to_pool(enemy: Node3D) -> void:
-	var key = enemy.enemy_id if enemy.has_method("enemy_id") else null
+	print("Returning enemy to pool: ", enemy.name, " id: ", enemy.id)
+	var key = enemy.id if enemy.has_method("id") else null
 	if key == null:
+		push_error("Enemy has no ID. Cannot return to pool.")
 		return
 	if not enemy_pool_storage.has(key):
+		push_error("No pool found for enemy ID: %s" % key)
 		enemy_pool_storage[key] = []
 	enemy_pool_storage[key].append(enemy)
 	enemy.hide()
+	print("Enemy returned to pool: ", enemy.name, " id: ", enemy.id)
 
 ## Picks a spawn point that can accommodate a minimum radius requirement.
 ## @param min_radius (float): Minimum spawn radius.
 ## @returns Node3D or null
 func pick_valid_spawn_point(min_radius: float) -> Node3D:
-	var candidates = spawn_points.filter(func(p): return p.can_spawn_size(min_radius))
+	var candidates = spawn_points.filter(func(p):
+		return p.can_spawn_size(min_radius) and is_valid_spawn_distance(p.global_transform.origin)
+	)
 	if candidates.is_empty():
 		return null
 	return candidates.pick_random()
@@ -241,6 +247,7 @@ func is_valid_spawn_distance(position: Vector3) -> bool:
 ## @param enemy (Node3D): Enemy that died.
 func _on_enemy_died(enemy):
 	active_enemies.erase(enemy)
+	print("enemy killed. Enemies left: ", active_enemies.size(), "| active enemies: ", active_enemies)
 	check_arena_clear()
 
 ## Called when an enemy despawns. Returns it to the pool.

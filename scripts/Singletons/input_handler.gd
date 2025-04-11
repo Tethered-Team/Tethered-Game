@@ -6,6 +6,7 @@ var current_input_scheme: INPUT_SCHEMES = INPUT_SCHEMES.KBM
 
 #signals
 signal control_set_changed(control_set: String)
+signal confirm_pressed
 
 # Stores buffered inputs with expiration time
 var input_buffer: Dictionary = {}
@@ -35,6 +36,13 @@ func _ready() -> void:
 	emit_signal("control_set_changed", current_input_scheme)
 	camera = get_viewport().get_camera_3d()
 	
+func handle_confirm_input():
+	"""Handle confirm button press."""
+	print("Confirm button pressed")
+	emit_signal("confirm_pressed")
+
+		
+
 
 ## Function: is_control_kbm
 ## Purpose: Check if the current input scheme is Keyboard & Mouse.
@@ -58,6 +66,10 @@ func _input(event: InputEvent):
 		switch_input_scheme(INPUT_SCHEMES.GAMEPAD)
 	elif event is InputEventScreenTouch or event is InputEventScreenDrag:
 		switch_input_scheme(INPUT_SCHEMES.TOUCH)
+	
+	if Input.is_action_just_pressed("confirm"):
+		handle_confirm_input()
+
 
 	# **Handle movement input**
 	input_vector = Input.get_vector("move_left", "move_right", "move_up", "move_down")

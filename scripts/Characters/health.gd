@@ -46,3 +46,7 @@ func die():
 	
 	if parent.has_method("die"):
 		parent.call_deferred("die")
+
+func is_dead() -> bool:
+	"""Check if the character is dead."""
+	return not is_alive
