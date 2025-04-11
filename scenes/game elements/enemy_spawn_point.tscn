@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cm8tr11uqvwjc"]
+
+[ext_resource type="Script" uid="uid://b47vuahae8x0u" path="res://scenes/game elements/enemy_spawn_position.gd" id="1_mngx7"]
+
+[node name="EnemySpawnPoint" type="Node3D"]
+script = ExtResource("1_mngx7")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+gizmo_extents = 0.73
